@@ -1,0 +1,15 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Web Forum!</h1>
+    <p>Find interesting stuff here.</p>
+</div>
+
+<div class="text-center mt-5">
+    <a asp-page="/Account/Register" class="btn btn-primary btn-lg mr-3">Sign Up</a>
+    <a href="/Login" class="btn btn-success btn-lg">Sign In</a>
+</div>

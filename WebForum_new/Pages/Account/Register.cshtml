@@ -1,0 +1,31 @@
+@page
+@model WebForum_new.Pages.Account.RegisterModel
+
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="RegisterVM.UserName"></label>
+        <input asp-for="RegisterVM.UserName"/>
+        <span asp-validation-for="RegisterVM.UserName"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="RegisterVM.Email"></label>
+        <input asp-for="RegisterVM.Email"/>
+        <span asp-validation-for="RegisterVM.Email"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="RegisterVM.Password"></label>
+        <input asp-for="RegisterVM.Password"/>
+        <span asp-validation-for="RegisterVM.Password"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="RegisterVM.ConfirmPassword"></label>
+        <input asp-for="RegisterVM.ConfirmPassword"/>
+        <span asp-validation-for="RegisterVM.ConfirmPassword"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-success">Sign In</button>
+    </div>
+</form>
