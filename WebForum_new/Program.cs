@@ -18,10 +18,7 @@ builder.Services.AddScoped<ValidateModelAttribute>();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
 builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-    {
-        options.Password.RequiredLength = 8;
-    })
+builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -31,6 +28,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie();
 
 var app = builder.Build();
+
+#region Developement
+
+bool seedData = true;
+if (seedData)
+{
+    await Seed.SeedUsersAndRolesAsync(app);
+}
+
+#endregion
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
