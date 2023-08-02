@@ -1,0 +1,21 @@
+@page
+@model WebForum_new.Pages.Account.LoginModel
+
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="LoginVM.Email"></label>
+        <input asp-for="LoginVM.Email"/>
+        <span asp-validation-for="LoginVM.Email"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="LoginVM.Password"></label>
+        <input asp-for="LoginVM.Password"/>
+        <span asp-validation-for="LoginVM.Password"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-success">Sign In</button>
+    </div>
+</form>

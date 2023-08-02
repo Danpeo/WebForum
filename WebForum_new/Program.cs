@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
+using WebForum_new.Filters;
 using WebForum_new.Models;
 using WebForum_new.Services;
 
@@ -11,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ValidateModelAttribute>();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
 builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
