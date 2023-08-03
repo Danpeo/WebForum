@@ -31,6 +31,8 @@ public class AccountService : CommonService<ApplicationDbContext>, IAccountServi
         {
             UserName = model.UserName,
             Email = model.Email,
+            RegistrationDate = DateTime.Now,
+            LastLogin = DateTime.Now,
         };
 
         IdentityResult result = await _userManager.CreateAsync(newUser, model.Password);
@@ -53,8 +55,6 @@ public class AccountService : CommonService<ApplicationDbContext>, IAccountServi
         return result.Succeeded;
     }
 
-    public void Logout()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task Logout() => 
+        await _signInManager.SignOutAsync();
 }

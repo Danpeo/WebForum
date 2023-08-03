@@ -1,15 +1,25 @@
 ﻿@page
+@using Microsoft.Extensions.Options
+@using WebForum_new.Data
 @model IndexModel
+@inject IOptionsSnapshot<AppDisplaySettings> OptionsSnapshot
+
 @{
     ViewData["Title"] = "Home page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome to Web Forum!</h1>
-    <p>Find interesting stuff here.</p>
-</div>
-
-<div class="text-center mt-5">
-    <a asp-page="/Account/Register" class="btn btn-primary btn-lg mr-3">Sign Up</a>
-    <a asp-page="/Account/Login" class="btn btn-success btn-lg">Sign In</a>
-</div>
+<for-not-logged>
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @OptionsSnapshot.Value.Title!</h1>
+        <p>Find interesting stuff here.</p>
+    </div>
+    <div class="text-center mt-5">
+        <a asp-page="/Account/Register" class="btn btn-primary btn-lg mr-3">Sign Up</a>
+        <a asp-page="/Account/Login" class="btn btn-success btn-lg">Sign In</a>
+    </div>
+</for-not-logged>
+<for-logged>
+    <div class="text-center">
+            <h1 class="display-4">Hi, @User.Identity?.Name</h1>
+            <p>You're super cool!</p>
+        </div>
+</for-logged>

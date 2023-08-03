@@ -16,7 +16,7 @@ public class LoginModel : PageModel
 
     private readonly IAccountService _accountService;
 
-    public LoginModel(ApplicationDbContext context, UserManager<AppUser> userManager, IAccountService accountService)
+    public LoginModel(IAccountService accountService)
     {
         _accountService = accountService;
     }

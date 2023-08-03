@@ -17,7 +17,7 @@ public class RegisterModel : PageModel
 
     private readonly IAccountService _accountService;
 
-    public RegisterModel(ApplicationDbContext context, UserManager<AppUser> userManager, IAccountService accountService)
+    public RegisterModel(IAccountService accountService)
     {
         _accountService = accountService;
     }

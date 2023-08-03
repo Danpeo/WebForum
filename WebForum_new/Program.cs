@@ -6,6 +6,7 @@ using WebForum_new.Data;
 using WebForum_new.Filters;
 using WebForum_new.Models;
 using WebForum_new.Services;
+using WebForum_new.TagHelpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +23,21 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Passwor
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.Configure<AppDisplaySettings>(builder.Configuration
+    .GetSection("AppDisplaySettings"));
+
+
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
+
+#region TagHelpers
+
+builder.Services.AddTransient<TruncateTextTagHelper>();
+builder.Services.AddTransient<ForLoggedTagHelper>();
+
+#endregion
 
 var app = builder.Build();
 
@@ -52,6 +64,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

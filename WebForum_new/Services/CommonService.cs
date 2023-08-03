@@ -1,20 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using WebForum_new.ViewModels;
 
 namespace WebForum_new.Services;
 
 public abstract class CommonService<TDbContext> where TDbContext : DbContext
 {
-    protected readonly TDbContext _context;
+    protected readonly TDbContext Context;
     
     
     protected CommonService(TDbContext context)
     {
-        _context = context;
+        Context = context;
     }
     
     protected virtual async Task<bool> SaveAsync()
     {
-        var saved = await _context.SaveChangesAsync();
+        var saved = await Context.SaveChangesAsync();
         return saved > 0;
     }
 }

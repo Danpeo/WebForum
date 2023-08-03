@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using WebForum_new.Data
+@using WebForum_new.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<AppDisplaySettings> OptionsSnapshot
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - WebForum_new</title>
+    <title>@ViewData["Title"] - @OptionsSnapshot.Value.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/WebForum_new.styles.css" asp-append-version="true"/>
@@ -12,7 +18,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">WebForum_new</a>
+            <a class="navbar-brand" asp-area="" asp-page="/Index">@OptionsSnapshot.Value.Title</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -25,6 +31,27 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                     </li>
+                    <for-logged>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Profile">My Profile</a>
+                        </li>
+                    </for-logged>
+                    <for-logged>
+                        <form method="post" asp-page-handler="Logout">
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
+                    </for-logged>
+                    <for-not-logged>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Sign Up</a>
+                        </li>
+                    </for-not-logged>
+                    <for-not-logged>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Sign In</a>
+                        </li>
+                    </for-not-logged>
+
                 </ul>
             </div>
         </div>
@@ -38,7 +65,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2023 - WebForum_new - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        &copy; @DateTime.Now.Year - @OptionsSnapshot.Value.Title, made by @OptionsSnapshot.Value.MadeBy - <a asp-area="" asp-page="/Privacy">Privacy</a>
     </div>
 </footer>
 

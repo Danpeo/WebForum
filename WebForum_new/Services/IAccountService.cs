@@ -6,5 +6,5 @@ public interface IAccountService
 {
     Task<bool> Register(RegisterViewModel model);
     Task<bool> Login(LoginViewModel model);
-    void Logout();
+    Task Logout();
 }
