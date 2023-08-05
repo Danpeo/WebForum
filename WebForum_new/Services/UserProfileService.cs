@@ -1,26 +1,25 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
-using WebForum_new.ViewModels;
 
 namespace WebForum_new.Services;
 
 public interface IUserProfileService
 {
-    Task<AppUser?> GetInfoByIdAsync(int id);
+    Task<AppUser?> GetInfoForUserAsync(ClaimsPrincipal user);
 }
 
 public class UserProfileService : CommonService<ApplicationDbContext>, IUserProfileService
 {
-    public UserProfileService(ApplicationDbContext context) : base(context)
+    private readonly UserManager<AppUser> _userManager;
+
+    public UserProfileService(ApplicationDbContext context, UserManager<AppUser> userManager) : base(context)
     {
+        _userManager = userManager;
     }
 
-    public async Task<AppUser?> GetInfoByIdAsync(int id)
-    {
-        return await Context.AppUsers
-            .Include(i => i.Communities)
-            .Include(i => i.Posts)
-            .FirstOrDefaultAsync(u => u.Id == id.ToString());
-    }
+    public async Task<AppUser?> GetInfoForUserAsync(ClaimsPrincipal user) => 
+        await _userManager.GetUserAsync(user);
 }
