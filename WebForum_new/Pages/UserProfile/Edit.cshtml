@@ -1,0 +1,15 @@
+@page
+@model WebForum_new.Pages.UserProfile.EditModel
+
+
+<h1>Edit Profile</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="EditUserProfileVM.UserBio" class="form-label">Bio</label>
+        <input asp-for="EditUserProfileVM.UserBio" class="form-control">
+        <span asp-validation-for="EditUserProfileVM.UserBio" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+</form>
+

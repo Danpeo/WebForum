@@ -1,10 +1,24 @@
 @page
+@using WebForum_new.Models
 @model WebForum_new.Pages.UserProfile.InfoModel
 
 @{
-    Layout = null;
 }
 
-<h2>Профиль пользователя</h2>
-<p>Имя: @Model.AppUser.UserName</p>
-<p>Email: @Model.AppUser.Email</p>
+<h2>@Model.AppUser?.UserName</h2>
+<p>Bio: @Model.AppUser?.UserBio</p>
+<p>Registration Date: @Model.AppUser?.RegistrationDate</p>
+<p>Email: @Model.AppUser?.Email</p>
+@if (Model.AppUser.Communities != null)
+{
+    <p>
+        @foreach (Community item in Model.AppUser.Communities)
+        {
+            @item.Name
+        }
+    </p>
+}
+else
+{
+    <p>No communities found.</p>
+}

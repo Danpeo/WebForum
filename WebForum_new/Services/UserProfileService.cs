@@ -1,14 +1,15 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
+using WebForum_new.ViewModels;
 
 namespace WebForum_new.Services;
 
 public interface IUserProfileService
 {
     Task<AppUser?> GetInfoForUserAsync(ClaimsPrincipal user);
+    Task<bool> Edit(ClaimsPrincipal user, EditUserProfilViewModel newUserInfo);
 }
 
 public class UserProfileService : CommonService<ApplicationDbContext>, IUserProfileService
@@ -22,4 +23,14 @@ public class UserProfileService : CommonService<ApplicationDbContext>, IUserProf
 
     public async Task<AppUser?> GetInfoForUserAsync(ClaimsPrincipal user) => 
         await _userManager.GetUserAsync(user);
+
+    public async Task<bool> Edit(ClaimsPrincipal user, EditUserProfilViewModel newUserInfo)
+    {
+        AppUser? userInfo = await GetInfoForUserAsync(user);
+
+        if (userInfo != null) 
+            userInfo.UserBio = newUserInfo.UserBio;
+
+        return await SaveAsync();
+    }
 }

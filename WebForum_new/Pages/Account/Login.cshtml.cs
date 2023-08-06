@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebForum_new.Data;
 using WebForum_new.Filters;
-using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.ViewModels;
 

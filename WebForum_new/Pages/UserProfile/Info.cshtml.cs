@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebForum_new.Models;
 using WebForum_new.Services;
-using WebForum_new.ViewModels;
 
 namespace WebForum_new.Pages.UserProfile;
 
