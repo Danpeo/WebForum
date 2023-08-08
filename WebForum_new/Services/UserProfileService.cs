@@ -6,12 +6,6 @@ using WebForum_new.ViewModels;
 
 namespace WebForum_new.Services;
 
-public interface IUserProfileService
-{
-    Task<AppUser?> GetInfoForUserAsync(ClaimsPrincipal user);
-    Task<bool> Edit(ClaimsPrincipal user, EditUserProfilViewModel newUserInfo);
-}
-
 public class UserProfileService : CommonService<ApplicationDbContext>, IUserProfileService
 {
     private readonly UserManager<AppUser> _userManager;

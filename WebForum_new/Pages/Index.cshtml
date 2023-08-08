@@ -7,6 +7,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
+
 <for-not-logged>
     <div class="text-center">
         <h1 class="display-4">Welcome to @OptionsSnapshot.Value.Title!</h1>
@@ -19,7 +20,12 @@
 </for-not-logged>
 <for-logged>
     <div class="text-center">
-            <h1 class="display-4">Hi, @User.Identity?.Name</h1>
-            <p>You're super cool!</p>
-        </div>
+        <h1 class="display-4">Hi, @User.Identity?.Name</h1>
+        <p>You're super cool!</p>
+    </div>
+    <a asp-page="/Community/Create" class="link-light">
+        <button class="btn btn-success">
+            Add New Community
+        </button>
+    </a>
 </for-logged>

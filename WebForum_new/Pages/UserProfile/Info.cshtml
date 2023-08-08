@@ -9,7 +9,7 @@
 <p>Bio: @Model.AppUser?.UserBio</p>
 <p>Registration Date: @Model.AppUser?.RegistrationDate</p>
 <p>Email: @Model.AppUser?.Email</p>
-@if (Model.AppUser.Communities != null)
+@if (Model.AppUser?.Communities != null)
 {
     <p>
         @foreach (Community item in Model.AppUser.Communities)
@@ -22,3 +22,9 @@ else
 {
     <p>No communities found.</p>
 }
+
+<a asp-page="/UserProfile/Edit" asp-route-id="@Model.AppUser?.Id" class="link-light">
+    <button class="btn btn-danger">
+        Edit
+    </button>
+</a>

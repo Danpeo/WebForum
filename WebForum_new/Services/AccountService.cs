@@ -7,22 +7,22 @@ namespace WebForum_new.Services;
 
 public class AccountService : CommonService<ApplicationDbContext>, IAccountService
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
+    private readonly UserManager<AppUser?> _userManager;
+    private readonly SignInManager<AppUser?> _signInManager;
 
-    public AccountService(ApplicationDbContext context, UserManager<AppUser> userManager) : base(context)
+    public AccountService(ApplicationDbContext context, UserManager<AppUser?> userManager) : base(context)
     {
         _userManager = userManager;
     }
     
-    public AccountService(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : this(context, userManager)
+    public AccountService(ApplicationDbContext context, UserManager<AppUser?> userManager, SignInManager<AppUser?> signInManager) : this(context, userManager)
     {
         _signInManager = signInManager;
     }
 
     public async Task<bool> Register(RegisterViewModel model)
     {
-        AppUser user = await _userManager.FindByEmailAsync(model.Email);
+        AppUser? user = await _userManager.FindByEmailAsync(model.Email);
 
         if (user != null)
             return false;
@@ -41,7 +41,7 @@ public class AccountService : CommonService<ApplicationDbContext>, IAccountServi
 
     public async Task<bool> Login(LoginViewModel model)
     {
-        AppUser user = await _userManager.FindByEmailAsync(model.Email);
+        AppUser? user = await _userManager.FindByEmailAsync(model.Email);
 
         if (user == null)
             return false;

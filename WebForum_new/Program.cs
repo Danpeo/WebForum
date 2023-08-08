@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Filters;
@@ -8,25 +7,20 @@ using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.TagHelpers;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+AddCustomServices(builder);
 
-builder.Services.AddScoped<ValidateModelAttribute>();
-
-string connection = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
+AddDbConnection(builder);
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.Configure<AppDisplaySettings>(builder.Configuration
-    .GetSection("AppDisplaySettings"));
+AddAppSettings(builder);
 
 
 builder.Services.AddMemoryCache();
@@ -34,24 +28,11 @@ builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
 
-#region TagHelpers
+AddTagHelpers(builder);
 
-builder.Services.AddTransient<TruncateTextTagHelper>();
-builder.Services.AddTransient<ForLoggedTagHelper>();
+WebApplication app = builder.Build();
 
-#endregion
-
-var app = builder.Build();
-
-#region Developement
-
-bool seedData = true;
-if (seedData)
-{
-    await Seed.SeedUsersAndRolesAsync(app);
-}
-
-#endregion
+await ForDevelopementOnly(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -72,3 +53,40 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+void AddCustomServices(WebApplicationBuilder webApplicationBuilder)
+{
+    webApplicationBuilder.Services.AddScoped<IAccountService, AccountService>();
+    webApplicationBuilder.Services.AddScoped<IUserProfileService, UserProfileService>();
+    webApplicationBuilder.Services.AddScoped<ICommunityService, CommunityService>();
+
+    builder.Services.AddScoped<ValidateModelAttribute>();
+}
+
+void AddDbConnection(WebApplicationBuilder builder1)
+{
+    string connection = builder1.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    builder1.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
+}
+
+async Task ForDevelopementOnly(WebApplication webApplication)
+{
+    bool seedData = false;
+    if (seedData)
+    {
+        await Seed.SeedUsersAndRolesAsync(webApplication);
+    }
+}
+
+void AddTagHelpers(WebApplicationBuilder webApplicationBuilder1)
+{
+    webApplicationBuilder1.Services.AddTransient<TruncateTextTagHelper>();
+    webApplicationBuilder1.Services.AddTransient<ForLoggedTagHelper>();
+    webApplicationBuilder1.Services.AddTransient<ForNotLoggedTagHelper>();
+}
+
+void AddAppSettings(WebApplicationBuilder builder2)
+{
+    builder2.Services.Configure<AppDisplaySettings>(builder2.Configuration
+        .GetSection("AppDisplaySettings"));
+}

@@ -79,3 +79,6 @@ C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\obj\Debug\net7.0\refint\W
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\obj\Debug\net7.0\WebForum_new.pdb
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\obj\Debug\net7.0\WebForum_new.genruntimeconfig.cache
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\obj\Debug\net7.0\ref\WebForum_new.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\obj\Debug\net7.0\WebForum_new.MvcApplicationPartsAssemblyInfo.cs
