@@ -1,0 +1,43 @@
+@page
+@using WebForum_new.Models
+@model WebForum_new.Pages.Community.DetailModel
+
+@{
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="note-container">
+                <h1 class="note-title">@Model.Community?.Name</h1>
+                <p class="note-creation-date">@Model.Community?.DateTimeCreated</p>
+                <p class="note-body">@Model.Community?.Description</p>
+            </div>
+            @*<div class="button-main">
+                <a asp-page="/Note/Edit" asp-route-id="@Model.Note?.Id" class="link-light">
+                    <button class="btn btn-primary">
+                        Edit
+                    </button>
+                </a>
+                <a asp-page="/Note/Delete" asp-route-id="@Model.Note?.Id" class="link-light">
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+                </a>
+            </div>*@
+        </div>
+        @if (Model.Community?.Posts != null)
+        {
+            <p>
+                @foreach (Post item in Model.Community.Posts)
+                {
+                    @item.Title
+                }
+            </p>
+        }
+        else
+        {
+            <p>No Post found.</p>
+        }
+    </div>
+</div>

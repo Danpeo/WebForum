@@ -1,5 +1,39 @@
 @page
+@using WebForum_new.ViewModels.Community
 @model WebForum_new.Pages.Community.ViewModel
 
 @{
 }
+<div class="container">
+    <div class="row justify-content-center">
+        @foreach (ViewCommunityViewModel? community in Model.CommunityViewModels)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        @*<div class="delete-btn-container">
+                            <a asp-page="/Note/Delete" asp-route-id="@note?.Id" class="link-main delete-btn">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>*@
+                        <h5 class="card-title text-center">
+                            <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-main">
+                                <truncate text=@community?.Name length=150></truncate>
+                            </a>
+                        </h5>
+                        <p class="card-text text-center">
+                            <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-secondary">
+                                <truncate text=@community?.Description length=150>@community?.Description</truncate>
+                            </a>
+                        </p>
+                        <p class="card-text text-center">
+                            <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-secondary">
+                                @community?.DateTimeCreated
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -10,6 +10,7 @@ public interface ICommunityService
 {
     Task<bool> CreateAsync(CreateCommunityViewModel? communityVM);
     Task<List<ViewCommunityViewModel>> GetAllAsync();
+    Task<Community?> GetByIdAsync(int id);
 }
 
 public class CommunityService : CommonService<ApplicationDbContext>, ICommunityService
@@ -24,6 +25,7 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
             .Include(c => c.Posts)
             .Select(c => new ViewCommunityViewModel()
             {
+                Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
                 DateTimeCreated = c.DateTimeCreated,
@@ -33,7 +35,12 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
 
         return communities;
     }
-    
+
+    public async Task<Community?> GetByIdAsync(int id) =>
+        await Context.Communities
+            .Include(c => c.Posts)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
     public async Task<bool> CreateAsync(CreateCommunityViewModel? communityVM)
     {
         var newCommunity = new Community()

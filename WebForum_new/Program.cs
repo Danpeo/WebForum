@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Filters;
 using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.TagHelpers;
+using Microsoft.AspNetCore.Identity;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -16,17 +16,20 @@ AddCustomServices(builder);
 
 AddDbConnection(builder);
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+/*builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()*/;
 
 AddAppSettings(builder);
 
 
-builder.Services.AddMemoryCache();
+/*builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+    .AddCookie();*/
 
 AddTagHelpers(builder);
 

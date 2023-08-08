@@ -7,7 +7,7 @@ namespace WebForum_new.Data;
 public sealed class ApplicationDbContext : IdentityDbContext<AppUser>
 {
     public DbSet<Comment> Comments { get; set; }
-    public DbSet<Community> Communities { get; set; }
+    public DbSet<Community?> Communities { get; set; }
     // public DbSet<CommunityCreator> CommunityCreators { get; set; }
     // public DbSet<CommunityModerator> CommunityModerators { get; set; }
     public DbSet<Post> Posts { get; set; }

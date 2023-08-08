@@ -1,5 +1,21 @@
 @page
-@model WebForum_new.Pages.Community.Create
+@model WebForum_new.Pages.Community.CreateModel
 
 @{
 }
+
+<h1>Add New Community</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="CommunityVM.Name" class="form-label">Name</label>
+        <input asp-for="CommunityVM.Name" class="form-control">
+        <span asp-validation-for="CommunityVM.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CommunityVM.Description" class="form-label">Description</label>
+        <textarea asp-for="CommunityVM.Description" class="form-control"></textarea>
+        <span asp-validation-for="CommunityVM.Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

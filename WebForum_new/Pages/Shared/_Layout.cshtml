@@ -31,26 +31,29 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                     </li>
-                    <for-logged>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/UserProfile/Info">My Profile</a>
-                        </li>
-                    </for-logged>
-                    <for-logged>
-                        <form method="post" asp-page-handler="Logout">
-                            <button type="submit" class="btn btn-primary">Logout</button>
-                        </form>
-                    </for-logged>
-                    <for-not-logged>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Sign Up</a>
-                        </li>
-                    </for-not-logged>
-                    <for-not-logged>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Sign In</a>
-                        </li>
-                    </for-not-logged>
+                <!--
+                <for-logged>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/UserProfile/Info">My Profile</a>
+                    </li>
+                </for-logged>
+                <for-logged>
+                    <form method="post" asp-page-handler="Logout">
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
+                </for-logged>
+                <for-not-logged>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Sign Up</a>
+                    </li>
+                </for-not-logged>
+                <for-not-logged>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Sign In</a>
+                    </li>
+                </for-not-logged>
+                -->
+                    <partial name="_LoginPartial"/>
 
                 </ul>
             </div>
