@@ -52,12 +52,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbXVuaXR5XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Community/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbXVuaXR5XERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Community/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbXVuaXR5XERldGFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Community/View.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbXVuaXR5XFZpZXcuY3NodG1s
+[C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Community/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbXVuaXR5XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Error.cshtml]

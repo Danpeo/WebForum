@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using WebForum_new.Authorization.Handlers;
+using WebForum_new.Authorization.Requirements;
 using WebForum_new.Data;
 using WebForum_new.Filters;
 using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.TagHelpers;
-using Microsoft.AspNetCore.Identity;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,18 @@ AddDbConnection(builder);
 
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(
+        "CanManageCommunity",
+        policyBuilder => policyBuilder
+            .AddRequirements(new IsCommunityOwnerRequirement())
+        );
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
+
 
 /*builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
     .AddEntityFrameworkStores<ApplicationDbContext>()

@@ -20,3 +20,78 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a {
+  text-decoration: none;
+  transition: font-size 0.2s, font-weight 0.2s;
+}
+
+.link-main {
+  color: #f81d56;
+}
+
+.link-main:hover {
+  color: #f881a0;
+}
+
+.link-secondary {
+  color: #1c1f23;
+}
+
+.link-secondary:hover {
+  color: #3d3d3d;
+}
+
+.link-main:hover, .link-secondary:hover {
+  font-size: 1.25em; /* Уменьшение размера шрифта на 25% */
+  font-weight: bold; /* Измените стиль на нужный */
+}
+
+.card-item-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-item-title {
+  color: #f81d56;
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.card-item-body {
+  color: #1c1f23;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.card-item-creation-date {
+  color: #999;
+  font-size: 12px;
+}
+
+.button-main {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.btn-main-horizontal {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.element-horizontal {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.delete-btn-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+}
+
+.delete-btn {
+  color: red;
+}
+

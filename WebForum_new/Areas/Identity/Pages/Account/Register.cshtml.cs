@@ -5,7 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -121,6 +123,9 @@ namespace WebForum_new.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var registrationDateClaim = new Claim("RegistrationDate", DateTime.Now.ToString(CultureInfo.CurrentCulture));
+                    await _userManager.AddClaimAsync(user, registrationDateClaim);
+                    
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

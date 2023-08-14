@@ -1,0 +1,29 @@
+@page
+@model WebForum_new.Pages.Community.DeleteModel
+
+@{
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Are you sure you want to delete this community?</h1>
+            <div class="note-container">
+                <h1 class="note-title">@Model.Community?.Name</h1>
+            </div>
+            <div class="button-main btn-main-horizontal d-flex">
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="@Model.Community.Id"/>
+                    <button type="submit" class="btn btn-danger">
+                        Proceed
+                    </button>
+                </form>
+                <a asp-page="/Community/Detail" asp-route-id="@Model.Community?.Id" class="link-light btn-main-horizontal">
+                    <button class="btn btn-primary">
+                        Cancel
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

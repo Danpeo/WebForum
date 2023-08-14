@@ -24,4 +24,6 @@ public class DetailModel : PageModel
 
         return Page();
     }
+    
+    
 }
