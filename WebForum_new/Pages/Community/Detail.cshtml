@@ -1,8 +1,10 @@
 @page
-@using WebForum_new.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model WebForum_new.Pages.Community.DetailModel
 
 @{
+    const int MaxPostTitleLength = 100;
+    const int MaxPostContentLength = 150;
 }
 
 <div class="container">
@@ -28,12 +30,30 @@
         </div>
         @if (Model.Community?.Posts != null)
         {
-            <p>
-                @foreach (Post item in Model.Community.Posts)
-                {
-                    @item.Title
-                }
-            </p>
+            @foreach (Models.Post post in Model.Community.Posts)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">
+                                <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-main">
+                                    <truncate text=@post?.Title length=MaxPostTitleLength></truncate>
+                                </a>
+                            </h5>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                                    <truncate text=@post?.Content length=MaxPostContentLength>@post?.Content</truncate>
+                                </a>
+                            </p>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                                    @post?.DateTimeCreated
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
         }
         else
         {
@@ -41,17 +61,33 @@
         }
     </div>
 
-    <div class="button-main">
-        <a asp-page="/Community/Delete" asp-route-id="@Model.Community?.Id" class="link-light">
+    @if (Model.CanManageCommunity)
+    {
+        <div class="button-main">
+            <a asp-page="/Community/Delete" asp-route-id="@Model.Community?.Id" class="link-light">
+                <button class="btn btn-danger">
+                    Permanent Delete
+                </button>
+            </a>
+            <a asp-page="/Community/Delete" asp-route-id="@Model.Community?.Id" class="link-light">
+                <button class="btn btn-danger">
+                    Delete
+                </button>
+            </a>
+        </div>
+    }
+    <for-logged>
+        <a asp-page="/Community/Post/Create" asp-route-id="@Model.Community?.Id" class="link-light">
             <button class="btn btn-danger">
-                Permanent Delete
+                Create Post
             </button>
         </a>
-        <a asp-page="/Community/Delete" asp-route-id="@Model.Community?.Id" class="link-light">
+    </for-logged>
+    <for-not-logged>
+        <a id="register" asp-area="Identity" asp-page="/Account/Register">
             <button class="btn btn-danger">
-                Delete
+                Create Post
             </button>
         </a>
-    </div>
-
+    </for-not-logged>
 </div>

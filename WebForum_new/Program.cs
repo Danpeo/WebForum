@@ -75,6 +75,7 @@ void AddCustomServices(WebApplicationBuilder webApplicationBuilder)
     webApplicationBuilder.Services.AddScoped<IAccountService, AccountService>();
     webApplicationBuilder.Services.AddScoped<IUserProfileService, UserProfileService>();
     webApplicationBuilder.Services.AddScoped<ICommunityService, CommunityService>();
+    webApplicationBuilder.Services.AddScoped<IPostService, PostService>();
 
     builder.Services.AddScoped<ValidateModelAttribute>();
 }

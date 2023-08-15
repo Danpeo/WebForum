@@ -4,6 +4,6 @@ namespace WebForum_new.ViewModels.Community;
 
 public class DetailCommunityViewModel : CommunityVewModel
 {
-    public List<Post>? Posts { get; set; } = new();
+    public List<Models.Post>? Posts { get; set; } = new();
 
 }

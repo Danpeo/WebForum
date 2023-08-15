@@ -1,0 +1,22 @@
+@page
+@model WebForum_new.Pages.Community.Post.CreateModel
+
+@{
+}
+
+<h1>Add New Post</h1>
+
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="PostVM.Title" class="form-label">Name</label>
+        <input asp-for="PostVM.Title" class="form-control">
+        <span asp-validation-for="PostVM.Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PostVM.Content" class="form-label">Description</label>
+        <textarea asp-for="PostVM.Content" class="form-control"></textarea>
+        <span asp-validation-for="PostVM.Content" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

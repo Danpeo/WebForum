@@ -1,0 +1,19 @@
+@page
+@model WebForum_new.Pages.Community.Post.DetailModel
+
+@{
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="note-container">
+                <h1 class="note-title">@Model.Post?.Title</h1>
+                <p class="note-creation-date">@Model.Post?.DateTimeCreated</p>
+                <p class="note-body">@Model.Post?.Content</p>
+            </div>
+            
+        </div> 
+    </div>
+</div>

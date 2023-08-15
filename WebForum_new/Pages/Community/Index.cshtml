@@ -3,6 +3,8 @@
 @model WebForum_new.Pages.Community.ViewModel
 
 @{
+    const int MaxCommunityNameLength = 100;
+    const int MaxCommunityDescriptionLength = 150;
 }
 <div class="container">
     <div class="row justify-content-center">
@@ -24,12 +26,14 @@
                         </div>*@
                         <h5 class="card-title text-center">
                             <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-main">
-                                <truncate text=@community?.Name length=150></truncate>
+                                <truncate text=@community?.Name length=MaxCommunityNameLength></truncate>
                             </a>
                         </h5>
                         <p class="card-text text-center">
                             <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-secondary">
-                                <truncate text=@community?.Description length=150>@community?.Description</truncate>
+                                <truncate
+                                    text=@community?.Description length=MaxCommunityDescriptionLength>
+                                </truncate>
                             </a>
                         </p>
                         <p class="card-text text-center">

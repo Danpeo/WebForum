@@ -9,14 +9,14 @@ public class UserProfileViewModel
     public DateTime? RegistrationDate { get; set; }
     public DateTime? LastLogin { get; set; }
     public List<Models.Community>? Communities { get; set; }
-    public List<Post>? Posts { get; set; }
+    public List<Models.Post>? Posts { get; set; }
 
     public UserProfileViewModel()
     {
         
     }
     
-    public UserProfileViewModel(string userName, string? userBio, DateTime? registrationDate, DateTime? lastLogin, List<Models.Community>? communities, List<Post>? posts)
+    public UserProfileViewModel(string userName, string? userBio, DateTime? registrationDate, DateTime? lastLogin, List<Models.Community>? communities, List<Models.Post>? posts)
     {
         UserName = userName;
         UserBio = userBio;
