@@ -41,6 +41,11 @@
                                 @community?.DateTimeCreated
                             </a>
                         </p>
+                        <p class="card-text text-center">
+                            <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-secondary">
+                                @community?.CreatedBy.UserName
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>

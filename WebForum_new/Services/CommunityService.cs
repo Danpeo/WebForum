@@ -21,7 +21,8 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
                 Name = c.Name,
                 Description = c.Description,
                 DateTimeCreated = c.DateTimeCreated,
-                Posts = c.Posts
+                Posts = c.Posts,
+                CreatedBy = c.CreatedBy
             })
             .ToListAsync();
 
@@ -40,8 +41,9 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
             Name = communityVM.Name,
             Description = communityVM.Description,
             DateTimeCreated = DateTime.Now,
-            CreatedById = createdBy.Id
+            CreatedBy = createdBy
         };
+        //createdBy.Communities.Add(newCommunity);
         Context.Communities.Add(newCommunity);
 
         return await SaveAsync();

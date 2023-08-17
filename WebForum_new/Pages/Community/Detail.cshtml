@@ -50,6 +50,11 @@
                                     @post?.DateTimeCreated
                                 </a>
                             </p>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                                    @post?.CreatedBy.UserName
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -59,6 +64,7 @@
         {
             <p>No Post found.</p>
         }
+
     </div>
 
     @if (Model.CanManageCommunity)

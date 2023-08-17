@@ -1,4 +1,5 @@
 @page
+@using WebForum_new.Models
 @model WebForum_new.Pages.Community.Post.DetailModel
 
 @{
@@ -13,7 +14,35 @@
                 <p class="note-creation-date">@Model.Post?.DateTimeCreated</p>
                 <p class="note-body">@Model.Post?.Content</p>
             </div>
-            
-        </div> 
+
+        </div>
     </div>
 </div>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="CommentVM.Content" class="form-label">Comment body</label>
+        <input asp-for="CommentVM.Content" class="form-control">
+        <span asp-validation-for="CommentVM.Content" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<h2>Comments</h2>
+@if (Model.Post?.Comments != null && Model.Post.Comments.Count > 0)
+{
+    <ul>
+        @foreach (Comment comment in Model.Post.Comments)
+        {
+            <li class="mb-3">
+                <strong>@comment.Content</strong><br/>
+                <small>@comment.DateTimeCreated</small>
+                <small>@comment.CreatedBy.UserName</small>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No comments yet</p>
+}
