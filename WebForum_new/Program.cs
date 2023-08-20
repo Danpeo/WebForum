@@ -20,21 +20,15 @@ AddDbConnection(builder);
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy(
-        "CanManageCommunity",
-        policyBuilder => policyBuilder
-            .AddRequirements(new IsCommunityOwnerRequirement())
-        );
-});
+builder.Services.AddAuthorization(RegisterPolicies);
 
 builder.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
 
 
 /*builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders()*/;
+    .AddDefaultTokenProviders()*/
+;
 
 AddAppSettings(builder);
 
@@ -107,4 +101,19 @@ void AddAppSettings(WebApplicationBuilder builder2)
 {
     builder2.Services.Configure<AppDisplaySettings>(builder2.Configuration
         .GetSection("AppDisplaySettings"));
+}
+
+void RegisterPolicies(AuthorizationOptions options)
+{
+    options.AddPolicy(
+        "CanManageCommunity",
+        policyBuilder => policyBuilder
+            .AddRequirements(new IsCommunityOwnerRequirement())
+    );
+
+    options.AddPolicy(
+        "CommunitySubscriber",
+        policyBuilder => policyBuilder
+            .AddRequirements(new IsCommunitySubscriberRequirement())
+    );
 }

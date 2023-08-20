@@ -22,7 +22,7 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
                 Description = c.Description,
                 DateTimeCreated = c.DateTimeCreated,
                 Posts = c.Posts,
-                CreatedBy = c.CreatedBy
+                CreatedBy = c.AppUser
             })
             .ToListAsync();
 
@@ -32,6 +32,7 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
     public async Task<Community?> GetByIdAsync(int id) =>
         await Context.Communities
             .Include(c => c.Posts)
+            .Include(c => c.AppUser)
             .FirstOrDefaultAsync(c => c.Id == id);
 
     public async Task<bool> CreateAsync(CreateCommunityViewModel? communityVM, AppUser? createdBy)
@@ -41,9 +42,8 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
             Name = communityVM.Name,
             Description = communityVM.Description,
             DateTimeCreated = DateTime.Now,
-            CreatedBy = createdBy
+            AppUser = createdBy
         };
-        //createdBy.Communities.Add(newCommunity);
         Context.Communities.Add(newCommunity);
 
         return await SaveAsync();
@@ -61,5 +61,57 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
         }
 
         return false;
+    }
+
+    public async Task<List<int>> GetSubscribedCommunityIdsAsync(AppUser currentUser)
+    {
+        List<int> subscribedCommunityIds = await Context.CommunitySubscriptions
+            .Where(cs => cs.AppUser == currentUser)
+            .Select(cs => cs.CommunityId)
+            .ToListAsync();
+
+        return subscribedCommunityIds;
+    }
+
+    public async Task<List<ViewCommunityViewModel>> GetSubscribedCommunitiesAsync(List<int> subscribedCommunityIds)
+    {
+        List<ViewCommunityViewModel> subscribedCommunities = await Context.Communities
+            .Where(c => subscribedCommunityIds.Contains(c.Id))
+            .Include(c => c.Posts)
+            .Select(c => new ViewCommunityViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                DateTimeCreated = c.DateTimeCreated,
+                Posts = c.Posts,
+                CreatedBy = c.AppUser
+            })
+            .ToListAsync();
+
+        return subscribedCommunities;
+    }
+
+    public async Task<List<AppUser>> GetSubscribersAsync(int communityId)
+    {
+        List<AppUser> subscribers = await Context.CommunitySubscriptions
+            .Where(cs => cs.CommunityId == communityId)
+            .Select(cs => cs.AppUser)
+            .ToListAsync();
+
+        return subscribers;
+    }
+
+    public async Task<bool> SubscribeAsync(int communityId, AppUser subscriber)
+    {
+        var subscription = new CommunitySubscription()
+        {
+            CommunityId = communityId,
+            AppUser = subscriber
+        };
+
+        subscriber.CommunitySubscriptions?.Add(subscription);
+        Context.CommunitySubscriptions.Add(subscription);
+        return await SaveAsync();
     }
 }

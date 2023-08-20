@@ -24,7 +24,7 @@ public class IsCommunityOwnerHandler : AuthorizationHandler<IsCommunityOwnerRequ
             return;
         }
 
-        if(resource.CreatedBy == appUser) 
+        if(resource.AppUser == appUser) 
             context.Succeed(requirement);
     }
 }

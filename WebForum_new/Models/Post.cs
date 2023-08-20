@@ -7,5 +7,5 @@ public class Post
     public string Content { get; set; }
     public DateTime DateTimeCreated { get; set; }
     public List<Comment>? Comments { get; set; } = new();
-    public AppUser CreatedBy { get; set; }
+    public AppUser AppUser { get; set; }
 }

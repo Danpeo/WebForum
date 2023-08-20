@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.ViewModels.Comment;
-using WebForum_new.ViewModels.Post;
 
 namespace WebForum_new.Pages.Community.Post;
 

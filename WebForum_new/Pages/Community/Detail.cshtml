@@ -13,6 +13,7 @@
             <div class="card-item-container">
                 <h1 class="card-item-title">@Model.Community?.Name</h1>
                 <p class="card-item-creation-date">@Model.Community?.DateTimeCreated</p>
+                <p class="card-item-creation-date">@Model.Subscribers.Count subscribers</p>
                 <p class="card-item-body">@Model.Community?.Description</p>
             </div>
             @*<div class="button-main">
@@ -28,6 +29,12 @@
                 </a>
             </div>*@
         </div>
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <input type="hidden" asp-for="Community.Id" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
         @if (Model.Community?.Posts != null)
         {
             @foreach (Models.Post post in Model.Community.Posts)
@@ -52,7 +59,7 @@
                             </p>
                             <p class="card-text text-center">
                                 <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
-                                    @post?.CreatedBy.UserName
+                                    @post?.AppUser.UserName
                                 </a>
                             </p>
                         </div>

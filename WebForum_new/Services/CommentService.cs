@@ -20,6 +20,7 @@ public class CommentService : CommonService<ApplicationDbContext>, ICommentServi
 
     public async Task<Comment?> GetByIdAsync(int id) =>
         await Context.Comments
+            .Include(c => c.AppUser)
             .FirstOrDefaultAsync(c => c.Id == id);
     
     public async Task<IEnumerable<Comment>> GetCommentsForPostAsync(int postId)
@@ -36,7 +37,7 @@ public class CommentService : CommonService<ApplicationDbContext>, ICommentServi
         {
             Content = commentVM.Content,
             DateTimeCreated = DateTime.Now,
-            CreatedBy = createdBy
+            AppUser = createdBy
         };
         
         post.Comments.Add(newComment);

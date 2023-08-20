@@ -21,6 +21,7 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
     public async Task<List<ViewPostViewModel>> GetAllAsync()
     {
         List<ViewPostViewModel> posts = await Context.Posts
+            .Include(c => c.AppUser)
             .Include(c => c.Comments)
             .Select(c => new ViewPostViewModel()
             {
@@ -39,6 +40,7 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
     public async Task<Post?> GetByIdAsync(int id) =>
         await Context.Posts
             .Include(p => p.Comments)
+            .Include(p => p.AppUser)
             .FirstOrDefaultAsync(c => c.Id == id);
 
     public async Task<bool> CreateAsync(Community community, CreatePostViewModel? postVM, AppUser? createdBy)
@@ -48,7 +50,7 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
             Title = postVM.Title,
             Content = postVM.Content,
             DateTimeCreated = postVM.DateTimeCreated,
-            CreatedBy = createdBy
+            AppUser = createdBy
         };
         
         createdBy.Posts.Add(newPost);

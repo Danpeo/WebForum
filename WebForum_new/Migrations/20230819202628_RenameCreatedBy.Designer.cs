@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebForum_new.Data;
 
@@ -11,9 +12,11 @@ using WebForum_new.Data;
 namespace WebForum_new.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230819202628_RenameCreatedBy")]
+    partial class RenameCreatedBy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,7 +264,7 @@ namespace WebForum_new.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("WebForum_new.Models.Community", b =>
@@ -291,29 +294,7 @@ namespace WebForum_new.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Communities", (string)null);
-                });
-
-            modelBuilder.Entity("WebForum_new.Models.CommunitySubscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CommunityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("CommunitySubscriptions", (string)null);
+                    b.ToTable("Communities");
                 });
 
             modelBuilder.Entity("WebForum_new.Models.Post", b =>
@@ -348,7 +329,7 @@ namespace WebForum_new.Migrations
 
                     b.HasIndex("CommunityId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -428,17 +409,6 @@ namespace WebForum_new.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("WebForum_new.Models.CommunitySubscription", b =>
-                {
-                    b.HasOne("WebForum_new.Models.AppUser", "AppUser")
-                        .WithMany("CommunitySubscriptions")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("WebForum_new.Models.Post", b =>
                 {
                     b.HasOne("WebForum_new.Models.AppUser", "AppUser")
@@ -459,8 +429,6 @@ namespace WebForum_new.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Communities");
-
-                    b.Navigation("CommunitySubscriptions");
 
                     b.Navigation("Posts");
                 });
