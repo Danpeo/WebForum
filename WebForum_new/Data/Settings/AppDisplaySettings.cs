@@ -1,4 +1,4 @@
-namespace WebForum_new.Data;
+namespace WebForum_new.Data.Settings;
 
 public class AppDisplaySettings
 {

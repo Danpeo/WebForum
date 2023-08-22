@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebForum_new.Authorization.Handlers;
 using WebForum_new.Authorization.Requirements;
 using WebForum_new.Data;
+using WebForum_new.Data.Settings;
 using WebForum_new.Filters;
 using WebForum_new.Models;
 using WebForum_new.Services;
@@ -22,7 +23,7 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
 
 builder.Services.AddAuthorization(RegisterPolicies);
 
-builder.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
+RegisterAuthorizationHandlers(builder);
 
 
 /*builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.Password.RequiredLength = 8; })
@@ -71,8 +72,9 @@ void AddCustomServices(WebApplicationBuilder webApplicationBuilder)
     webApplicationBuilder.Services.AddScoped<ICommunityService, CommunityService>();
     webApplicationBuilder.Services.AddScoped<IPostService, PostService>();
     webApplicationBuilder.Services.AddScoped<ICommentService, CommentService>();
-
-    builder.Services.AddScoped<ValidateModelAttribute>();
+    webApplicationBuilder.Services.AddScoped<IImageService, ImageService>();
+    
+    webApplicationBuilder.Services.AddScoped<ValidateModelAttribute>();
 }
 
 void AddDbConnection(WebApplicationBuilder builder1)
@@ -97,10 +99,13 @@ void AddTagHelpers(WebApplicationBuilder webApplicationBuilder1)
     webApplicationBuilder1.Services.AddTransient<ForNotLoggedTagHelper>();
 }
 
-void AddAppSettings(WebApplicationBuilder builder2)
+void AddAppSettings(WebApplicationBuilder webAppBuilder)
 {
-    builder2.Services.Configure<AppDisplaySettings>(builder2.Configuration
+    webAppBuilder.Services.Configure<AppDisplaySettings>(webAppBuilder.Configuration
         .GetSection("AppDisplaySettings"));
+
+    webAppBuilder.Services.Configure<CloudinarySettings>(webAppBuilder.Configuration
+        .GetSection("CloudinarySettings"));
 }
 
 void RegisterPolicies(AuthorizationOptions options)
@@ -116,4 +121,10 @@ void RegisterPolicies(AuthorizationOptions options)
         policyBuilder => policyBuilder
             .AddRequirements(new IsCommunitySubscriberRequirement())
     );
+}
+
+void RegisterAuthorizationHandlers(WebApplicationBuilder webApplicationBuilder2)
+{
+    webApplicationBuilder2.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
+    webApplicationBuilder2.Services.AddScoped<IAuthorizationHandler, IsCommunitySubscriberHandler>();
 }

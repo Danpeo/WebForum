@@ -19,6 +19,13 @@
     </div>
 </div>
 
+@if (!string.IsNullOrEmpty(Model.Post?.Image))
+{
+    <div class="col-lg-7 mb-4 mb-sm-0">
+        <img alt="Image" src="@Model.Post?.Image" class="rounded img-fluid"/>
+    </div>
+}
+
 <form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="CommentVM.Content" class="form-label">Comment body</label>

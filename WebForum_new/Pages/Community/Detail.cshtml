@@ -29,12 +29,24 @@
                 </a>
             </div>*@
         </div>
-        <form method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <input type="hidden" asp-for="Community.Id" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Subscribe</button>
-        </form>
+
+        @if (!Model.IsSubscriber)
+        {
+            <form method="post" enctype="multipart/form-data">
+                <button type="submit" asp-page-handler="Subscribe" asp-route-id="@Model.Community.Id" class="btn btn-primary">
+                    Subscribe
+                </button>
+            </form>
+        }
+        else
+        {
+            <form method="post" enctype="multipart/form-data">
+                <button type="submit" asp-page-handler="Unsubscribe" asp-route-id="@Model.Community.Id" class="btn btn-primary">
+                    Unsubscibe
+                </button>
+            </form>
+        }
+
         @if (Model.Community?.Posts != null)
         {
             @foreach (Models.Post post in Model.Community.Posts)
@@ -73,6 +85,13 @@
         }
 
     </div>
+
+    @if (!string.IsNullOrEmpty(Model.Community?.Image))
+    {
+        <div class="col-lg-7 mb-4 mb-sm-0">
+            <img alt="Image" src="@Model.Community?.Image" class="rounded img-fluid"/>
+        </div>
+    }
 
     @if (Model.CanManageCommunity)
     {

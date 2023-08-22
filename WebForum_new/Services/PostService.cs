@@ -1,3 +1,4 @@
+using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
@@ -5,17 +6,13 @@ using WebForum_new.ViewModels.Post;
 
 namespace WebForum_new.Services;
 
-public interface IPostService
-{
-    Task<Post?> GetByIdAsync(int id);
-    Task<bool> CreateAsync(Community community, CreatePostViewModel? postVM, AppUser? createdBy);
-    Task<List<ViewPostViewModel>> GetAllAsync();
-}
-
 public class PostService : CommonService<ApplicationDbContext>, IPostService
 {
-    public PostService(ApplicationDbContext context) : base(context)
+    private readonly IImageService _imageService;
+
+    public PostService(ApplicationDbContext context, IImageService imageService) : base(context)
     {
+        _imageService = imageService;
     }
 
     public async Task<List<ViewPostViewModel>> GetAllAsync()
@@ -45,11 +42,14 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
 
     public async Task<bool> CreateAsync(Community community, CreatePostViewModel? postVM, AppUser? createdBy)
     {
+        ImageUploadResult image = await _imageService.UploadImageAsync(postVM.Image);
+
         var newPost = new Post()
         {
             Title = postVM.Title,
             Content = postVM.Content,
             DateTimeCreated = postVM.DateTimeCreated,
+            Image = image.Url.ToString(),
             AppUser = createdBy
         };
         

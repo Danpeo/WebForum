@@ -8,4 +8,5 @@ public class Post
     public DateTime DateTimeCreated { get; set; }
     public List<Comment>? Comments { get; set; } = new();
     public AppUser AppUser { get; set; }
+    public string? Image { get; set; }
 }

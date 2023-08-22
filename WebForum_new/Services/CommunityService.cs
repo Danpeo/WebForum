@@ -1,3 +1,4 @@
+using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
@@ -7,8 +8,11 @@ namespace WebForum_new.Services;
 
 public class CommunityService : CommonService<ApplicationDbContext>, ICommunityService
 {
-    public CommunityService(ApplicationDbContext context) : base(context)
+    private readonly IImageService _imageService;
+
+    public CommunityService(ApplicationDbContext context, IImageService imageService) : base(context)
     {
+        _imageService = imageService;
     }
 
     public async Task<List<ViewCommunityViewModel>> GetAllAsync()
@@ -37,10 +41,13 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
 
     public async Task<bool> CreateAsync(CreateCommunityViewModel? communityVM, AppUser? createdBy)
     {
+        ImageUploadResult image = await _imageService.UploadImageAsync(communityVM.Image);
+        
         var newCommunity = new Community()
         {
             Name = communityVM.Name,
             Description = communityVM.Description,
+            Image = image.Url.ToString(),
             DateTimeCreated = DateTime.Now,
             AppUser = createdBy
         };
@@ -102,16 +109,30 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
         return subscribers;
     }
 
-    public async Task<bool> SubscribeAsync(int communityId, AppUser subscriber)
+    public async Task<bool> SubscribeAsync(int communityId, AppUser user)
     {
         var subscription = new CommunitySubscription()
         {
             CommunityId = communityId,
-            AppUser = subscriber
+            AppUser = user
         };
 
-        subscriber.CommunitySubscriptions?.Add(subscription);
+        user.CommunitySubscriptions?.Add(subscription);
         Context.CommunitySubscriptions.Add(subscription);
+        return await SaveAsync();
+    }
+
+    public async Task<bool> UnsubscribeAsync(int communityId, AppUser user)
+    {
+        CommunitySubscription? subscription = await Context.CommunitySubscriptions
+            .FirstOrDefaultAsync(sub => sub.CommunityId == communityId && sub.AppUser == user);
+
+        if (subscription != null)
+        {
+            user.CommunitySubscriptions?.Remove(subscription);
+            Context.CommunitySubscriptions.Remove(subscription);
+        }
+
         return await SaveAsync();
     }
 }
