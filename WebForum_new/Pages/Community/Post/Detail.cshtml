@@ -12,6 +12,8 @@
             <div class="note-container">
                 <h1 class="note-title">@Model.Post?.Title</h1>
                 <p class="note-creation-date">@Model.Post?.DateTimeCreated</p>
+                <p class="note-creation-date">@Model.Post?.LikeCount</p>
+                <p class="note-creation-date">@Model.Post?.DislikeCount</p>
                 <p class="note-body">@Model.Post?.Content</p>
             </div>
 
@@ -25,6 +27,21 @@
         <img alt="Image" src="@Model.Post?.Image" class="rounded img-fluid"/>
     </div>
 }
+<form method="post" enctype="multipart/form-data">
+
+    @if (Model.CanPutLike)
+    {
+        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
+            LIKE
+        </button>
+    }
+    else
+    {
+        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
+            REMOVE LIKE
+        </button>
+    }
+</form>
 
 <form method="post" enctype="multipart/form-data">
     <div class="mb-3">
@@ -32,7 +49,7 @@
         <input asp-for="CommentVM.Content" class="form-control">
         <span asp-validation-for="CommentVM.Content" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button asp-page-handler="CreateComment" asp-route-id="@Model.Post.Id" type="submit" class="btn btn-primary">Add</button>
 </form>
 
 <h2>Comments</h2>

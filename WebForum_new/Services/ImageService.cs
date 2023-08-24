@@ -19,11 +19,12 @@ public class ImageService : IImageService
         _cloundinary = new Cloudinary(account);
     }
 
-    public async Task<ImageUploadResult> UploadImageAsync(IFormFile file, int height = 500, int width = 500)
+    public async Task<ImageUploadResult?> UploadImageAsync(IFormFile? file, int height = 500, int width = 500)
     {
-        var uploadResult = new ImageUploadResult();
-        if (file.Length > 0)
+        if (file != null && file.Length > 0)
         {
+            var uploadResult = new ImageUploadResult();
+
             await using Stream stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
             {
@@ -31,9 +32,11 @@ public class ImageService : IImageService
                 Transformation = new Transformation().Height(height).Width(width).Crop("fill").Gravity("face")
             };
             uploadResult = await _cloundinary.UploadAsync(uploadParams);
+
+            return uploadResult;
         }
 
-        return uploadResult;
+        return null;
     }
 
     public async Task<DeletionResult> DeleteImageAsync(string url)

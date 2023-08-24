@@ -41,13 +41,13 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
 
     public async Task<bool> CreateAsync(CreateCommunityViewModel? communityVM, AppUser? createdBy)
     {
-        ImageUploadResult image = await _imageService.UploadImageAsync(communityVM.Image);
+        ImageUploadResult? image = await _imageService.UploadImageAsync(communityVM?.Image);
         
         var newCommunity = new Community()
         {
             Name = communityVM.Name,
             Description = communityVM.Description,
-            Image = image.Url.ToString(),
+            Image = image == null ? string.Empty : image.Url.ToString(),
             DateTimeCreated = DateTime.Now,
             AppUser = createdBy
         };

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,27 +10,31 @@ namespace WebForum_new.Pages.Community.Post;
 
 public class DetailModel : PageModel
 {
-    [BindProperty] 
-    public CreateCommentViewModel CommentVM { get; set; } = new();
+    [BindProperty] public CreateCommentViewModel CommentVM { get; set; } = new();
 
-    [BindProperty]
-    public Models.Post? Post { get; set; } = new();
-    
-    
+    [BindProperty] public Models.Post? Post { get; set; } = new();
+
+    public bool CanPutLike { get; set; }
+
+    private readonly IAuthorizationService _authService;
     private readonly IPostService _postService;
     private readonly ICommentService _commentService;
     private UserManager<AppUser> _userManager;
 
-    public DetailModel(IPostService postService, ICommentService commentService, UserManager<AppUser> userManager)
+    public DetailModel(IPostService postService, ICommentService commentService, UserManager<AppUser> userManager,
+        IAuthorizationService authService)
     {
         _postService = postService;
         _commentService = commentService;
         _userManager = userManager;
+        _authService = authService;
     }
-    
+
     public async Task<IActionResult> OnGet(int id)
     {
         Post = await _postService.GetByIdAsync(id);
+
+        await CheckUserPermissions();
 
         if (Post == null)
             return NotFound();
@@ -37,7 +42,7 @@ public class DetailModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(int id)
+    public async Task<IActionResult> OnPostCreateComment(int id)
     {
         Post = await _postService.GetByIdAsync(id);
         AppUser? user = await _userManager.GetUserAsync(User);
@@ -47,5 +52,24 @@ public class DetailModel : PageModel
             return LocalRedirect(Url.Content("~/"));
 
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostVote(int id, VoteType voteType)
+    {
+        Post = await _postService.GetByIdAsync(id);
+        AppUser? user = await _userManager.GetUserAsync(User);
+
+        bool voted = await _postService.AddVoteAsync(id, user, voteType);
+
+        if (voted)
+            return LocalRedirect(Url.Content("~/"));
+
+        return Page();
+    }
+
+    private async Task CheckUserPermissions()
+    {
+        CanPutLike = (await _authService
+            .AuthorizeAsync(User, Post, "CanLikePost")).Succeeded;
     }
 }

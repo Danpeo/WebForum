@@ -15,8 +15,8 @@ public sealed class ApplicationDbContext : IdentityDbContext<AppUser>
     // public DbSet<CommunityModerator> CommunityModerators { get; set; }
     public DbSet<Post> Posts { get; set; }
 
-    /*public DbSet<PostVote> PostVotes { get; set; }
-    public DbSet<CommentVote> CommentVotes { get; set; }*/
+    public DbSet<PostVote> PostVotes { get; set; }
+    //public DbSet<CommentVote> CommentVotes { get; set; }*/
     public DbSet<AppUser> AppUsers { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

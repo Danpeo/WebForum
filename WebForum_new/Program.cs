@@ -65,22 +65,22 @@ app.MapRazorPages();
 
 app.Run();
 
-void AddCustomServices(WebApplicationBuilder webApplicationBuilder)
+void AddCustomServices(WebApplicationBuilder webBuilder)
 {
-    webApplicationBuilder.Services.AddScoped<IAccountService, AccountService>();
-    webApplicationBuilder.Services.AddScoped<IUserProfileService, UserProfileService>();
-    webApplicationBuilder.Services.AddScoped<ICommunityService, CommunityService>();
-    webApplicationBuilder.Services.AddScoped<IPostService, PostService>();
-    webApplicationBuilder.Services.AddScoped<ICommentService, CommentService>();
-    webApplicationBuilder.Services.AddScoped<IImageService, ImageService>();
-    
-    webApplicationBuilder.Services.AddScoped<ValidateModelAttribute>();
+    webBuilder.Services.AddScoped<IAccountService, AccountService>();
+    webBuilder.Services.AddScoped<IUserProfileService, UserProfileService>();
+    webBuilder.Services.AddScoped<ICommunityService, CommunityService>();
+    webBuilder.Services.AddScoped<IPostService, PostService>();
+    webBuilder.Services.AddScoped<ICommentService, CommentService>();
+    webBuilder.Services.AddScoped<IImageService, ImageService>();
+
+    webBuilder.Services.AddScoped<ValidateModelAttribute>();
 }
 
-void AddDbConnection(WebApplicationBuilder builder1)
+void AddDbConnection(WebApplicationBuilder webBuilder)
 {
-    string connection = builder1.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-    builder1.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
+    string connection = webBuilder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    webBuilder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
 }
 
 async Task ForDevelopementOnly(WebApplication webApplication)
@@ -92,11 +92,11 @@ async Task ForDevelopementOnly(WebApplication webApplication)
     }
 }
 
-void AddTagHelpers(WebApplicationBuilder webApplicationBuilder1)
+void AddTagHelpers(WebApplicationBuilder webApplicationBuilder)
 {
-    webApplicationBuilder1.Services.AddTransient<TruncateTextTagHelper>();
-    webApplicationBuilder1.Services.AddTransient<ForLoggedTagHelper>();
-    webApplicationBuilder1.Services.AddTransient<ForNotLoggedTagHelper>();
+    webApplicationBuilder.Services.AddTransient<TruncateTextTagHelper>();
+    webApplicationBuilder.Services.AddTransient<ForLoggedTagHelper>();
+    webApplicationBuilder.Services.AddTransient<ForNotLoggedTagHelper>();
 }
 
 void AddAppSettings(WebApplicationBuilder webAppBuilder)
@@ -121,10 +121,17 @@ void RegisterPolicies(AuthorizationOptions options)
         policyBuilder => policyBuilder
             .AddRequirements(new IsCommunitySubscriberRequirement())
     );
+
+    options.AddPolicy(
+        "CanLikePost",
+        policyBuilder => policyBuilder
+            .AddRequirements(new CanLikePostRequirement())
+    );
 }
 
-void RegisterAuthorizationHandlers(WebApplicationBuilder webApplicationBuilder2)
+void RegisterAuthorizationHandlers(WebApplicationBuilder webBuilder)
 {
-    webApplicationBuilder2.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
-    webApplicationBuilder2.Services.AddScoped<IAuthorizationHandler, IsCommunitySubscriberHandler>();
+    webBuilder.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
+    webBuilder.Services.AddScoped<IAuthorizationHandler, IsCommunitySubscriberHandler>();
+    webBuilder.Services.AddScoped<IAuthorizationHandler, CanLikePostHandler>();
 }

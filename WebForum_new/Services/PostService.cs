@@ -33,28 +33,58 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
         return posts;
     }
 
-    
+
     public async Task<Post?> GetByIdAsync(int id) =>
         await Context.Posts
             .Include(p => p.Comments)
+                .ThenInclude(c => c.AppUser)
             .Include(p => p.AppUser)
             .FirstOrDefaultAsync(c => c.Id == id);
 
     public async Task<bool> CreateAsync(Community community, CreatePostViewModel? postVM, AppUser? createdBy)
     {
-        ImageUploadResult image = await _imageService.UploadImageAsync(postVM.Image);
+        ImageUploadResult? image = await _imageService.UploadImageAsync(postVM?.Image);
 
         var newPost = new Post()
         {
             Title = postVM.Title,
             Content = postVM.Content,
             DateTimeCreated = postVM.DateTimeCreated,
-            Image = image.Url.ToString(),
+            Image = image == null ? string.Empty : image.Url.ToString(),
             AppUser = createdBy
         };
-        
+
         createdBy.Posts.Add(newPost);
         community.Posts?.Add(newPost);
+        return await SaveAsync();
+    }
+
+    public async Task<bool> AddVoteAsync(int postId, AppUser user, VoteType voteType)
+    {
+        var postVote = new PostVote()
+        {
+            PostId = postId,
+            AppUser = user,
+            VoteType = voteType
+        };
+
+        Post? post = await GetByIdAsync(postId);
+        
+        if (post == null)
+            return false;
+        
+        if (voteType == VoteType.Like)
+        {
+            post.LikeCount++;
+        }
+        else if (voteType == VoteType.Dislike)
+        {
+            post.DislikeCount++;
+        }
+
+        user.PostVotes?.Add(postVote);
+        Context.PostVotes.Add(postVote);
+
         return await SaveAsync();
     }
 }

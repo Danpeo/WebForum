@@ -9,4 +9,6 @@ public class Post
     public List<Comment>? Comments { get; set; } = new();
     public AppUser AppUser { get; set; }
     public string? Image { get; set; }
+    public int LikeCount { get; set; }
+    public int DislikeCount { get; set; }
 }

@@ -5,13 +5,6 @@ using WebForum_new.ViewModels.Comment;
 
 namespace WebForum_new.Services;
 
-public interface ICommentService
-{
-    Task<IEnumerable<Comment>> GetCommentsForPostAsync(int postId);
-    Task<bool> CreateAsync(Post post, CreateCommentViewModel? commentVM, AppUser? createdBy);
-    Task<Comment?> GetByIdAsync(int id);
-}
-
 public class CommentService : CommonService<ApplicationDbContext>, ICommentService
 {
     public CommentService(ApplicationDbContext context) : base(context)
@@ -31,7 +24,7 @@ public class CommentService : CommonService<ApplicationDbContext>, ICommentServi
         return null;
     }
 
-    public async Task<bool> CreateAsync(Post post, CreateCommentViewModel? commentVM, AppUser? createdBy)
+    public async Task<bool> CreateAsync(Post post, CreateCommentViewModel? commentVM, AppUser createdBy)
     {
         var newComment = new Comment()
         {
@@ -40,7 +33,7 @@ public class CommentService : CommonService<ApplicationDbContext>, ICommentServi
             AppUser = createdBy
         };
         
-        post.Comments.Add(newComment);
+        post.Comments?.Add(newComment);
         return await SaveAsync();
     }
 }
