@@ -9,4 +9,6 @@ public interface IPostService
     Task<bool> CreateAsync(Community community, CreatePostViewModel? postVM, AppUser? createdBy);
     Task<List<ViewPostViewModel>> GetAllAsync();
     Task<bool> AddVoteAsync(int postId, AppUser user, VoteType voteType);
+    Task<bool> RemoveVoteAsync(int postId, AppUser user, VoteType voteType);
+    Task<List<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user);
 }

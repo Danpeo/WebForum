@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebForum_new.Authorization.Handlers;
+using WebForum_new.Authorization.Handlers.PostVote;
 using WebForum_new.Authorization.Requirements;
+using WebForum_new.Authorization.Requirements.PostVote;
 using WebForum_new.Data;
 using WebForum_new.Data.Settings;
 using WebForum_new.Filters;
@@ -127,6 +129,12 @@ void RegisterPolicies(AuthorizationOptions options)
         policyBuilder => policyBuilder
             .AddRequirements(new CanLikePostRequirement())
     );
+
+    options.AddPolicy(
+        "CanDislikePost",
+        policyBuilder => policyBuilder
+            .AddRequirements(new CanDislikePostRequirement())
+    );
 }
 
 void RegisterAuthorizationHandlers(WebApplicationBuilder webBuilder)
@@ -134,4 +142,5 @@ void RegisterAuthorizationHandlers(WebApplicationBuilder webBuilder)
     webBuilder.Services.AddScoped<IAuthorizationHandler, IsCommunityOwnerHandler>();
     webBuilder.Services.AddScoped<IAuthorizationHandler, IsCommunitySubscriberHandler>();
     webBuilder.Services.AddScoped<IAuthorizationHandler, CanLikePostHandler>();
+    webBuilder.Services.AddScoped<IAuthorizationHandler, CanDislikePostHandler>();
 }

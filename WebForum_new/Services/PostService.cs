@@ -9,10 +9,13 @@ namespace WebForum_new.Services;
 public class PostService : CommonService<ApplicationDbContext>, IPostService
 {
     private readonly IImageService _imageService;
+    private readonly ICommunityService _communityService;
 
-    public PostService(ApplicationDbContext context, IImageService imageService) : base(context)
+    public PostService(ApplicationDbContext context, IImageService imageService, ICommunityService communityService) :
+        base(context)
     {
         _imageService = imageService;
+        _communityService = communityService;
     }
 
     public async Task<List<ViewPostViewModel>> GetAllAsync()
@@ -33,11 +36,24 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
         return posts;
     }
 
+    public async Task<List<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user)
+    {
+        List<int> subscribedCommunitiedIds = await _communityService.GetSubscribedCommunityIdsAsync(user);
+
+        List<Post> posts = await Context.Communities
+            .Where(c => subscribedCommunitiedIds.Contains(c.Id))
+            .SelectMany(c => c.Posts)
+            .OrderByDescending(p => p.LikeCount)
+            .ThenByDescending(p => p.DateTimeCreated)
+            .ToListAsync();
+
+        return posts;
+    }
 
     public async Task<Post?> GetByIdAsync(int id) =>
         await Context.Posts
             .Include(p => p.Comments)
-                .ThenInclude(c => c.AppUser)
+            .ThenInclude(c => c.AppUser)
             .Include(p => p.AppUser)
             .FirstOrDefaultAsync(c => c.Id == id);
 
@@ -61,7 +77,7 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
 
     public async Task<bool> AddVoteAsync(int postId, AppUser user, VoteType voteType)
     {
-        var postVote = new PostVote()
+        var vote = new PostVote()
         {
             PostId = postId,
             AppUser = user,
@@ -69,10 +85,10 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
         };
 
         Post? post = await GetByIdAsync(postId);
-        
+
         if (post == null)
             return false;
-        
+
         if (voteType == VoteType.Like)
         {
             post.LikeCount++;
@@ -82,8 +98,36 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
             post.DislikeCount++;
         }
 
-        user.PostVotes?.Add(postVote);
-        Context.PostVotes.Add(postVote);
+        user.PostVotes?.Add(vote);
+        Context.PostVotes.Add(vote);
+
+        return await SaveAsync();
+    }
+
+    public async Task<bool> RemoveVoteAsync(int postId, AppUser user, VoteType voteType)
+    {
+        PostVote? vote = await Context.PostVotes
+            .FirstOrDefaultAsync(v => v.PostId == postId && v.AppUser == user && v.VoteType == voteType);
+
+        Post? post = await GetByIdAsync(postId);
+
+        if (post == null)
+            return false;
+
+        if (vote != null)
+        {
+            if (voteType == VoteType.Like)
+            {
+                post.LikeCount--;
+            }
+            else if (voteType == VoteType.Dislike)
+            {
+                post.DislikeCount--;
+            }
+
+            user.PostVotes?.Remove(vote);
+            Context.PostVotes.Remove(vote);
+        }
 
         return await SaveAsync();
     }

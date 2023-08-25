@@ -1,12 +1,17 @@
 ﻿@page
 @using Microsoft.Extensions.Options
-@using WebForum_new.Data
 @using WebForum_new.Data.Settings
+@using WebForum_new.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using WebForum_new.Models
 @model IndexModel
 @inject IOptionsSnapshot<AppDisplaySettings> OptionsSnapshot
 
 @{
     ViewData["Title"] = "Home page";
+    const int MaxCommunityNameLength = 100;
+    const int MaxCommunityDescriptionLength = 150;
+    const int MaxCommunitiesDisplay = 6;
 }
 
 <for-not-logged>
@@ -26,12 +31,84 @@
     </div>
     <a asp-page="/Community/Index" class="link-light">
         <button class="btn btn-success">
-            Communities
+            All Communities
         </button>
     </a>
-    <a asp-page="/Community/IndexSubscribed" class="link-light">
-        <button class="btn btn-success">
-            Communities Subs
-        </button>
-    </a>
+</for-logged>
+<for-logged>
+    <p>Joined Communities</p>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            @for (int i = 0; i < MaxCommunitiesDisplay && i < Model.CommunityViewModels.Count; i++)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">
+                                <a asp-page="/Community/Detail" asp-route-id="@Model.CommunityViewModels[i]?.Id" class="link-main">
+                                    <truncate text=@Model.CommunityViewModels[i]?.Name length=MaxCommunityNameLength></truncate>
+                                </a>
+                            </h5>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Detail" asp-route-id="@Model.CommunityViewModels[i]?.Id" class="link-secondary">
+                                    <truncate
+                                        text=@Model.CommunityViewModels[i]?.Description length=MaxCommunityDescriptionLength>
+                                    </truncate>
+                                </a>
+                            </p>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Detail" asp-route-id="@Model.CommunityViewModels[i]?.Id" class="link-secondary">
+                                    @Model.CommunityViewModels[i]?.DateTimeCreated
+                                </a>
+                            </p>
+                            <p class="card-text text-center">
+                                <a asp-page="/Community/Detail" asp-route-id="@Model.CommunityViewModels[i]?.Id" class="link-secondary">
+                                    @Model.CommunityViewModels[i]?.CreatedBy.UserName
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @if (Model.CommunityViewModels.Count > MaxCommunitiesDisplay)
+    {
+        <a asp-page="/Community/IndexSubscribed" class="link-light">
+            <button class="btn btn-success">
+                View All
+            </button>
+        </a>
+    }
+    <p>Feed</p>
+    @foreach (Post post in Model.Posts)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">
+                        <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-main">
+                            <truncate text=@post?.Title length=150></truncate>
+                        </a>
+                    </h5>
+                    <p class="card-text text-center">
+                        <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                            <truncate text=@post?.Content length=150>@post?.Content</truncate>
+                        </a>
+                    </p>
+                    <p class="card-text text-center">
+                        <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                            @post?.DateTimeCreated
+                        </a>
+                    </p>
+                    <p class="card-text text-center">
+                        <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
+                            @post?.AppUser.UserName
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
 </for-logged>

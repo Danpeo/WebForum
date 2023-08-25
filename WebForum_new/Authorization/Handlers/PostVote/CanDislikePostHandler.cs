@@ -1,24 +1,24 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using WebForum_new.Authorization.Requirements;
+using WebForum_new.Authorization.Requirements.PostVote;
 using WebForum_new.Data;
 using WebForum_new.Models;
 
-namespace WebForum_new.Authorization.Handlers;
+namespace WebForum_new.Authorization.Handlers.PostVote;
 
-public class CanLikePostHandler : AuthorizationHandler<CanLikePostRequirement, Post>
+public class CanDislikePostHandler: AuthorizationHandler<CanDislikePostRequirement, Post>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly ApplicationDbContext _context;
 
-    public CanLikePostHandler(UserManager<AppUser> userManager, ApplicationDbContext context)
+    public CanDislikePostHandler(UserManager<AppUser> userManager, ApplicationDbContext context)
     {
         _userManager = userManager;
         _context = context;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
-        CanLikePostRequirement requirement,
+        CanDislikePostRequirement requirement,
         Post resource)
     {
         AppUser? appUser = await _userManager.GetUserAsync(context.User);
@@ -29,7 +29,7 @@ public class CanLikePostHandler : AuthorizationHandler<CanLikePostRequirement, P
         }
 
         bool likedPost = _context.PostVotes
-            .Any(cs => cs.AppUser == appUser && cs.PostId == resource.Id && cs.VoteType == VoteType.Like);
+            .Any(cs => cs.AppUser == appUser && cs.PostId == resource.Id && cs.VoteType == VoteType.Dislike);
 
         if (!likedPost)
             context.Succeed(requirement);

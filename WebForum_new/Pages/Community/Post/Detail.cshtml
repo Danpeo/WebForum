@@ -37,10 +37,24 @@
     }
     else
     {
-        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
             REMOVE LIKE
         </button>
     }
+
+    @if (Model.CanPutDisike)
+    {
+        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-primary">
+            DISLIKE
+        </button>
+    }
+    else
+    {
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-primary">
+            REMOVE LIKE
+        </button>
+    }
+    
 </form>
 
 <form method="post" enctype="multipart/form-data">

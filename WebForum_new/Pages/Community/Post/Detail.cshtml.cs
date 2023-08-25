@@ -15,6 +15,7 @@ public class DetailModel : PageModel
     [BindProperty] public Models.Post? Post { get; set; } = new();
 
     public bool CanPutLike { get; set; }
+    public bool CanPutDisike { get; set; }
 
     private readonly IAuthorizationService _authService;
     private readonly IPostService _postService;
@@ -59,7 +60,7 @@ public class DetailModel : PageModel
         Post = await _postService.GetByIdAsync(id);
         AppUser? user = await _userManager.GetUserAsync(User);
 
-        bool voted = await _postService.AddVoteAsync(id, user, voteType);
+        bool voted = user != null && await _postService.AddVoteAsync(id, user, voteType);
 
         if (voted)
             return LocalRedirect(Url.Content("~/"));
@@ -67,9 +68,25 @@ public class DetailModel : PageModel
         return Page();
     }
 
+    public async Task<IActionResult> OnPostRemoveVote(int id, VoteType voteType)
+    {
+        Post = await _postService.GetByIdAsync(id);
+        AppUser? user = await _userManager.GetUserAsync(User);
+
+        bool removedVote = user != null && await _postService.RemoveVoteAsync(id, user, voteType);
+
+        if (removedVote)
+            return LocalRedirect(Url.Content("~/"));
+        
+        return Page();
+    }
+
     private async Task CheckUserPermissions()
     {
         CanPutLike = (await _authService
             .AuthorizeAsync(User, Post, "CanLikePost")).Succeeded;
+        
+        CanPutDisike = (await _authService
+            .AuthorizeAsync(User, Post, "CanDislikePost")).Succeeded;
     }
 }
