@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
 using WebForum_new.ViewModels.Post;
+using X.PagedList;
 
 namespace WebForum_new.Services;
 
@@ -48,6 +49,15 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
             .ToListAsync();
 
         return posts;
+    }
+
+    public async Task<IPagedList<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user, int pageNumber,  int pageSize)
+    {
+        List<Post> posts = await GetPostsFromSubscribedCommunitiesAsync(user);
+
+        IPagedList<Post>? pagedPosts = posts.ToPagedList(pageNumber, pageSize);
+        
+        return pagedPosts;
     }
 
     public async Task<Post?> GetByIdAsync(int id) =>

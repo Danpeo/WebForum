@@ -70,6 +70,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.8, )"
+            },
+            "PagedList.Core": {
+              "target": "Package",
+              "version": "[1.17.4, )"
+            },
+            "X.PagedList.Mvc.Core": {
+              "target": "Package",
+              "version": "[9.0.0-prerelease, )"
             }
           },
           "imports": [

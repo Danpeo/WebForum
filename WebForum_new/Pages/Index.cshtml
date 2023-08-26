@@ -4,6 +4,8 @@
 @using WebForum_new.TagHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using WebForum_new.Models
+@using X.PagedList
+@using X.PagedList.Mvc.Core
 @model IndexModel
 @inject IOptionsSnapshot<AppDisplaySettings> OptionsSnapshot
 
@@ -82,7 +84,7 @@
         </a>
     }
     <p>Feed</p>
-    @foreach (Post post in Model.Posts)
+    @foreach (Post? post in Model.PagedList)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
@@ -111,4 +113,11 @@
             </div>
         </div>
     }
+    @*
+    @Html.PagedListPager((Model, page => Url.Page("Index", new { page }))
+    *@
+
+    @Html.PagedListPager(Model.PagedList, page => Url.Page("Index", new { page }))
+
+
 </for-logged>

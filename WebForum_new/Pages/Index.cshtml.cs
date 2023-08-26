@@ -4,14 +4,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.ViewModels.Community;
+using X.PagedList;
 
 namespace WebForum_new.Pages;
 
 public class IndexModel : PageModel
 {
-    public List<ViewCommunityViewModel> CommunityViewModels { get; set; } = new();
-    public List<Post> Posts { get; set; } = new();
+    private const int PostsPageSize = 2;
 
+    public List<ViewCommunityViewModel> CommunityViewModels { get; set; } = new();
+    public List<Post>? Posts { get; set; } = new();
+    public IPagedList<Post>? PagedList { get; set; }
+    
     private readonly ILogger<IndexModel> _logger;
     private readonly IAccountService _accountService;
     private ICommunityService _communityService;
@@ -28,7 +32,7 @@ public class IndexModel : PageModel
         _postService = postService;
     }
 
-    public async Task<PageResult> OnGet()
+    public async Task<PageResult> OnGet(int? page)
     {
         AppUser? user = await _userManager.GetUserAsync(User);
         if (user != null)
@@ -36,7 +40,12 @@ public class IndexModel : PageModel
             List<int> subscribedCommunitiedIds = await _communityService.GetSubscribedCommunityIdsAsync(user);
             CommunityViewModels = await _communityService.GetSubscribedCommunitiesAsync(subscribedCommunitiedIds);
 
-            Posts = await _postService.GetPostsFromSubscribedCommunitiesAsync(user);
+            int pageNumber = page ?? 1;
+
+            PagedList =
+                await _postService.GetPostsFromSubscribedCommunitiesAsync(user, pageNumber,
+                    PostsPageSize);
+
         }
 
         return Page();
