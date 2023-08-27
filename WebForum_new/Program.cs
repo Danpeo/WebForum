@@ -20,6 +20,9 @@ AddCustomServices(builder);
 
 AddDbConnection(builder);
 
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

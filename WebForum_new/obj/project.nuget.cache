@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OcgThwI2q5jzwL29d+hstQJRTWRTou8OViqu1H1UgcTrcdS3dJPpUYKVsEjD5cA5PZhRcEJemTOajp1OMVNi5Q==",
+  "dgSpecHash": "lnb0nZS0+EwKtIdNN30B4SasZE5o9Tj1iWunZlkHVE3v9VccM7CaPVuE08oQ4OdrxWr6/UFjqse6E6eGjryp7Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\WebForum_new.csproj",
   "expectedPackageFiles": [
@@ -65,6 +65,8 @@
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\7.0.9\\microsoft.aspnetcore.identity.entityframeworkcore.7.0.9.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\7.0.9\\microsoft.aspnetcore.identity.ui.7.0.9.nupkg.sha512",
+    "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\6.0.0\\microsoft.aspnetcore.mvc.razor.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.runtimecompilation\\7.0.10\\microsoft.aspnetcore.mvc.razor.runtimecompilation.7.0.10.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\danil\\.nuget\\packages\\microsoft.build\\17.3.2\\microsoft.build.17.3.2.nupkg.sha512",

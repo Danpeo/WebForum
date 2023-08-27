@@ -13,4 +13,5 @@ public interface IPostService
     Task<bool> RemoveVoteAsync(int postId, AppUser user, VoteType voteType);
     Task<List<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user);
     Task<IPagedList<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user, int pageNumber, int pageSize);
+    IQueryable<Post> GetPostsQuery();
 }

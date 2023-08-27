@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @using Microsoft.Extensions.Options
 @using WebForum_new.Data.Settings
 @using WebForum_new.TagHelpers
@@ -116,8 +116,9 @@
     @*
     @Html.PagedListPager((Model, page => Url.Page("Index", new { page }))
     *@
-
-    @Html.PagedListPager(Model.PagedList, page => Url.Page("Index", new { page }))
-
+    <p>THE PAGE IS @Model.Page</p>
+    <div class="pagination">
+        <partial name="_Pagination" model="Model.PaginationInfo" />
+    </div>
 
 </for-logged>

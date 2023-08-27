@@ -51,6 +51,23 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
         return posts;
     }
 
+    public IQueryable<Post> GetPostsQuery()
+    {
+        // В этом методе вы можете создать базовый запрос, который будет включать в себя
+        // все необходимые Include, OrderBy и другие операции, которые вы хотите выполнить над данными.
+        // Это позволит вам создать IQueryable<Post>, который будет содержать
+        // только посты, соответствующие вашим требованиям.
+
+        // Пример:
+        var query = Context.Posts
+            .Include(p => p.Comments)
+            .Include(p => p.AppUser)
+            .OrderByDescending(p => p.DateTimeCreated);
+
+        return query;
+    }
+
+    
     public async Task<IPagedList<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user, int pageNumber,  int pageSize)
     {
         List<Post> posts = await GetPostsFromSubscribedCommunitiesAsync(user);

@@ -12,7 +12,7 @@ build_property.RootNamespace = WebForum_new
 build_property.ProjectDir = C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = C:\Users\danil\RiderProjects\WebForum_new\WebForum_new
 build_property._RazorSourceGeneratorDebug = 
 
@@ -90,6 +90,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Shared/_Pagination.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9QYWdpbmF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/danil/RiderProjects/WebForum_new/WebForum_new/Pages/Shared/_ValidationScriptsPartial.cshtml]

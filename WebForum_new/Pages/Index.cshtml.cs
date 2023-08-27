@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebForum_new.Models;
+using WebForum_new.Pagination;
 using WebForum_new.Services;
 using WebForum_new.ViewModels.Community;
-using X.PagedList;
 
 namespace WebForum_new.Pages;
 
@@ -12,9 +12,14 @@ public class IndexModel : PageModel
 {
     private const int PostsPageSize = 2;
 
+    public int? Page { get; set; }
+    
     public List<ViewCommunityViewModel> CommunityViewModels { get; set; } = new();
     public List<Post>? Posts { get; set; } = new();
-    public IPagedList<Post>? PagedList { get; set; }
+    
+    public PaginationInfo PaginationInfo { get; set; } // Добавьте это свойство
+
+    public PaginatedList<Post> PagedList { get; set; }
     
     private readonly ILogger<IndexModel> _logger;
     private readonly IAccountService _accountService;
@@ -32,24 +37,33 @@ public class IndexModel : PageModel
         _postService = postService;
     }
 
-    public async Task<PageResult> OnGet(int? page)
+    
+    public async Task<IActionResult> OnGet(int? id)
     {
         AppUser? user = await _userManager.GetUserAsync(User);
         if (user != null)
         {
-            List<int> subscribedCommunitiedIds = await _communityService.GetSubscribedCommunityIdsAsync(user);
-            CommunityViewModels = await _communityService.GetSubscribedCommunitiesAsync(subscribedCommunitiedIds);
+            List<int> subscribedCommunityIds = await _communityService.GetSubscribedCommunityIdsAsync(user);
+            CommunityViewModels = await _communityService.GetSubscribedCommunitiesAsync(subscribedCommunityIds);
 
-            int pageNumber = page ?? 1;
+            Page = id;
 
-            PagedList =
-                await _postService.GetPostsFromSubscribedCommunitiesAsync(user, pageNumber,
-                    PostsPageSize);
+            int pageNumber = id ?? 2;
 
+            IQueryable<Post> postsQuery = _postService.GetPostsQuery(); // Получите IQueryable<Post> из сервиса
+
+            PagedList = await PaginatedList<Post>.CreateAsync(postsQuery, pageNumber, PostsPageSize);
+            
+            PaginationInfo = new PaginationInfo
+            {
+                TotalPages = PagedList.TotalPages,
+                CurrentPage = PagedList.PageIndex
+            };
         }
 
         return Page();
     }
+
 
     public async Task<IActionResult> OnPostLogoutAsync()
     {
