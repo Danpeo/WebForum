@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using WebForum_new.Data;
 using WebForum_new.Models;
 using WebForum_new.ViewModels.Post;
-using X.PagedList;
 
 namespace WebForum_new.Services;
 
@@ -50,33 +49,7 @@ public class PostService : CommonService<ApplicationDbContext>, IPostService
 
         return posts;
     }
-
-    public IQueryable<Post> GetPostsQuery()
-    {
-        // В этом методе вы можете создать базовый запрос, который будет включать в себя
-        // все необходимые Include, OrderBy и другие операции, которые вы хотите выполнить над данными.
-        // Это позволит вам создать IQueryable<Post>, который будет содержать
-        // только посты, соответствующие вашим требованиям.
-
-        // Пример:
-        var query = Context.Posts
-            .Include(p => p.Comments)
-            .Include(p => p.AppUser)
-            .OrderByDescending(p => p.DateTimeCreated);
-
-        return query;
-    }
-
     
-    public async Task<IPagedList<Post>> GetPostsFromSubscribedCommunitiesAsync(AppUser user, int pageNumber,  int pageSize)
-    {
-        List<Post> posts = await GetPostsFromSubscribedCommunitiesAsync(user);
-
-        IPagedList<Post>? pagedPosts = posts.ToPagedList(pageNumber, pageSize);
-        
-        return pagedPosts;
-    }
-
     public async Task<Post?> GetByIdAsync(int id) =>
         await Context.Posts
             .Include(p => p.Comments)

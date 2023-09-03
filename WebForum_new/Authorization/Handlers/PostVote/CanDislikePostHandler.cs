@@ -28,10 +28,10 @@ public class CanDislikePostHandler: AuthorizationHandler<CanDislikePostRequireme
             return;
         }
 
-        bool likedPost = _context.PostVotes
+        bool dislikedPost = _context.PostVotes
             .Any(cs => cs.AppUser == appUser && cs.PostId == resource.Id && cs.VoteType == VoteType.Dislike);
 
-        if (!likedPost)
+        if (!dislikedPost)
             context.Succeed(requirement);
     }
 }

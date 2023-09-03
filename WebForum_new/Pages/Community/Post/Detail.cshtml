@@ -12,8 +12,6 @@
             <div class="note-container">
                 <h1 class="note-title">@Model.Post?.Title</h1>
                 <p class="note-creation-date">@Model.Post?.DateTimeCreated</p>
-                <p class="note-creation-date">@Model.Post?.LikeCount</p>
-                <p class="note-creation-date">@Model.Post?.DislikeCount</p>
                 <p class="note-body">@Model.Post?.Content</p>
             </div>
 
@@ -27,34 +25,43 @@
         <img alt="Image" src="@Model.Post?.Image" class="rounded img-fluid"/>
     </div>
 }
+
+<div class="vote-counts">
+    <p class="like-count">Likes: @Model.Post?.LikeCount</p>
+    <p class="dislike-count">Dislikes: @Model.Post?.DislikeCount</p>
+</div>
+
 <form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="returnUrl" value="@HttpContext.Request.Path"/>
 
     @if (Model.CanPutLike)
     {
-        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
-            LIKE
+        <button type="submit" id="likeVote" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-outline-primary">
+            <span class="arw arw-gray">&#8593;</span>
+            <span class="like-count">@Model.Post?.LikeCount</span>
         </button>
     }
     else
     {
-        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-primary">
-            REMOVE LIKE
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-outline-primary">
+            <span class="arw arw-like">&#8593;</span>
         </button>
     }
 
     @if (Model.CanPutDisike)
     {
-        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-primary">
-            DISLIKE
+        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-outline-primary">
+            <span class="arw arw-gray">&#8595;</span>
         </button>
     }
     else
     {
-        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-primary">
-            REMOVE LIKE
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-outline-primary">
+            <span class="arw arw-dislike">&#8595;</span>
         </button>
     }
-    
+
 </form>
 
 <form method="post" enctype="multipart/form-data">

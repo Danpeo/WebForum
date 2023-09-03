@@ -1,4 +1,4 @@
-@page
+@page "{id:int?}"
 @using WebForum_new.ViewModels.Community
 @model WebForum_new.Pages.Community.ViewModel
 
@@ -13,7 +13,20 @@
                 Add New
             </button>
         </a>
-        @foreach (ViewCommunityViewModel? community in Model.CommunityViewModels)
+
+        <form method="get" asp-page="/Community/Index" class="form-inline ml-2" style="margin-left: 10px;">
+            <div class="input-group">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Enter search query"/>
+                <input type="date" name="searchDate" class="form-control"/>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-success element-horizontal">Search</button>
+                    <button type="button" class="btn btn-secondary" id="resetButton">Reset</button>
+
+                </div>
+            </div>
+        </form>
+
+        @foreach (ViewCommunityViewModel? community in Model.CommunityPagedList)
         {
             <div class="col-md-4 mb-4">
                 <div class="card">
@@ -50,5 +63,19 @@
                 </div>
             </div>
         }
+        <p>PAGINATIONS</p>
+        <div class="pagination">
+            <partial name="_Pagination" model="Model.PaginationInfo"/>
+        </div>
+
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+            SelectorReset.attachResetHandler("resetButton", [
+                { selector: "input[name='searchQuery']" },
+                { selector: "input[name='searchDate']" },
+            ]);
+        });
+</script>

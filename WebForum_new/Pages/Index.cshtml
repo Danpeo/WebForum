@@ -4,8 +4,6 @@
 @using WebForum_new.TagHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using WebForum_new.Models
-@using X.PagedList
-@using X.PagedList.Mvc.Core
 @model IndexModel
 @inject IOptionsSnapshot<AppDisplaySettings> OptionsSnapshot
 
@@ -22,8 +20,8 @@
         <p>Find interesting stuff here.</p>
     </div>
     <div class="text-center mt-5">
-        <a asp-page="/Account/Register" class="btn btn-primary btn-lg mr-3">Sign Up</a>
-        <a asp-page="/Account/Login" class="btn btn-success btn-lg">Sign In</a>
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg mr-3">Sign Up</a>
+        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success btn-lg">Sign In</a>
     </div>
 </for-not-logged>
 <for-logged>
@@ -84,7 +82,7 @@
         </a>
     }
     <p>Feed</p>
-    @foreach (Post? post in Model.PagedList)
+    @foreach (Post? post in Model.PostPagedList)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
@@ -113,12 +111,19 @@
             </div>
         </div>
     }
-    @*
-    @Html.PagedListPager((Model, page => Url.Page("Index", new { page }))
-    *@
-    <p>THE PAGE IS @Model.Page</p>
+
     <div class="pagination">
-        <partial name="_Pagination" model="Model.PaginationInfo" />
+        <partial name="_Pagination" model="Model.PaginationInfo"/>
     </div>
 
 </for-logged>
+
+<button id="scrollToTopButton" class="floating-button">
+    <span>&#8593;</span> <!--arrow unicode-->
+</button>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+            scrollToUp("scrollToTopButton", 100);
+        });
+</script>

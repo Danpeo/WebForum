@@ -10,16 +10,10 @@ namespace WebForum_new.Pages;
 
 public class IndexModel : PageModel
 {
-    private const int PostsPageSize = 2;
-
-    public int? Page { get; set; }
-    
+    private const int PostsPageSize = 5;
     public List<ViewCommunityViewModel> CommunityViewModels { get; set; } = new();
-    public List<Post>? Posts { get; set; } = new();
-    
-    public PaginationInfo PaginationInfo { get; set; } // Добавьте это свойство
-
-    public PaginatedList<Post> PagedList { get; set; }
+    public PaginationInfo PaginationInfo { get; set; } = new();
+    public PaginatedList<Post> PostPagedList { get; set; } = new();
     
     private readonly ILogger<IndexModel> _logger;
     private readonly IAccountService _accountService;
@@ -45,19 +39,16 @@ public class IndexModel : PageModel
         {
             List<int> subscribedCommunityIds = await _communityService.GetSubscribedCommunityIdsAsync(user);
             CommunityViewModels = await _communityService.GetSubscribedCommunitiesAsync(subscribedCommunityIds);
+            
+            
+            List<Post> posts = await _postService.GetPostsFromSubscribedCommunitiesAsync(user);
 
-            Page = id;
-
-            int pageNumber = id ?? 2;
-
-            IQueryable<Post> postsQuery = _postService.GetPostsQuery(); // Получите IQueryable<Post> из сервиса
-
-            PagedList = await PaginatedList<Post>.CreateAsync(postsQuery, pageNumber, PostsPageSize);
+            PostPagedList = PaginatedList<Post>.Create(posts, id ?? 1, PostsPageSize);
             
             PaginationInfo = new PaginationInfo
             {
-                TotalPages = PagedList.TotalPages,
-                CurrentPage = PagedList.PageIndex
+                TotalPages = PostPagedList.TotalPages,
+                CurrentPage = PostPagedList.PageIndex
             };
         }
 

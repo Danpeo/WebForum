@@ -1,97 +1,144 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 a {
-  text-decoration: none;
-  transition: font-size 0.2s, font-weight 0.2s;
+    text-decoration: none;
+    transition: font-size 0.2s, font-weight 0.2s;
 }
 
 .link-main {
-  color: #f81d56;
+    color: #f81d56;
 }
 
 .link-main:hover {
-  color: #f881a0;
+    color: #f881a0;
 }
 
 .link-secondary {
-  color: #1c1f23;
+    color: #1c1f23;
 }
 
 .link-secondary:hover {
-  color: #3d3d3d;
+    color: #3d3d3d;
 }
 
 .link-main:hover, .link-secondary:hover {
-  font-size: 1.25em; /* Уменьшение размера шрифта на 25% */
-  font-weight: bold; /* Измените стиль на нужный */
+    font-size: 1.25em; /* Уменьшение размера шрифта на 25% */
+    font-weight: bold; /* Измените стиль на нужный */
 }
 
 .card-item-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .card-item-title {
-  color: #f81d56;
-  font-size: 34px;
-  margin-bottom: 10px;
+    color: #f81d56;
+    font-size: 34px;
+    margin-bottom: 10px;
 }
 
 .card-item-body {
-  color: #1c1f23;
-  font-size: 16px;
-  line-height: 1.5;
+    color: #1c1f23;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .card-item-creation-date {
-  color: #999;
-  font-size: 12px;
+    color: #999;
+    font-size: 12px;
 }
 
 .button-main {
-  padding-top: 10px;
-  padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .btn-main-horizontal {
-  padding-left: 10px;
-  padding-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .element-horizontal {
-  margin-left: 10px;
-  margin-right: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .delete-btn-container {
-  display: flex;
-  justify-content: flex-end; /* Aligns items to the right */
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
 }
 
 .delete-btn {
-  color: red;
+    color: red;
 }
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.floating-button:hover {
+    background-color: #0056b3;
+}
+
+.arw {
+    font-size: 24px;
+}
+
+.arw-gray {
+    color: gray;
+}
+
+.arw-like {
+    color: #ff0059;
+}
+
+.arw-dislike {
+    color: #3b41e0;
+}
+
+.vote-counts {
+    margin-top: 10px; /* Отступ сверху */
+}
+
+.like-count, .dislike-count {
+    font-size: 24px;
+
+}
+
 

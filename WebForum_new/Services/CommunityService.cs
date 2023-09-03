@@ -135,4 +135,32 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
 
         return await SaveAsync();
     }
+
+    public async Task<List<ViewCommunityViewModel>> SearchAsync(string searchQuery, DateTime? searchDate)
+    {
+        if (string.IsNullOrEmpty(searchQuery) && !searchDate.HasValue)
+            return await GetAllAsync();
+
+        IQueryable<Community?> query = Context.Communities
+            .Where(c => (EF.Functions.Like(c.Name, $"%{searchQuery}%")) ||
+                        EF.Functions.Like(c.Description, $"%{searchQuery}%"));
+
+        if (searchDate.HasValue)
+        {
+            query = query.Where(community => community != null && community.DateTimeCreated.Date == searchDate.Value.Date);
+        }
+        
+        IQueryable<ViewCommunityViewModel> result = query
+            .Select(q => new ViewCommunityViewModel()
+            {
+                Id = q.Id,
+                Name = q.Name,
+                Description = q.Description,
+                DateTimeCreated = q.DateTimeCreated,
+                Posts = q.Posts,
+                CreatedBy = q.AppUser                
+            });
+        
+        return await result.ToListAsync();
+    }
 }

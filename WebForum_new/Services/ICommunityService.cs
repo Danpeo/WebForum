@@ -6,7 +6,7 @@ namespace WebForum_new.Services;
 public interface ICommunityService
 {
     Task<bool> CreateAsync(CreateCommunityViewModel? communityVM, AppUser? createdBy);
-    Task<List<ViewCommunityViewModel>> GetAllAsync();
+    Task<List<ViewCommunityViewModel?>> GetAllAsync();
     Task<Community?> GetByIdAsync(int id);
     Task<bool> PermanentDeleteAsync(int id);
     Task<bool> SubscribeAsync(int communityId, AppUser user);
@@ -14,4 +14,5 @@ public interface ICommunityService
     Task<List<ViewCommunityViewModel>> GetSubscribedCommunitiesAsync(List<int> subscribedCommunityIds);
     Task<List<int>> GetSubscribedCommunityIdsAsync(AppUser currentUser);
     Task<List<AppUser>> GetSubscribersAsync(int communityId);
+    Task<List<ViewCommunityViewModel>> SearchAsync(string searchQuery, DateTime? searchDate);
 }

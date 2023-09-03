@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WebForum_new.Extensions;
 using WebForum_new.Models;
 using WebForum_new.Services;
 using WebForum_new.ViewModels.Post;
@@ -35,9 +36,7 @@ public class CreateModel : PageModel
         AppUser? user = await _userManager.GetUserAsync(User);
 
         bool created = await _postService.CreateAsync(community, PostVM, user);
-        if (created)
-            return LocalRedirect(Url.Content("~/"));
-
-        return Page();
+        
+        return created ? this.RedirectBack() : LocalRedirect(Url.Content("~/"));
     }
 }
