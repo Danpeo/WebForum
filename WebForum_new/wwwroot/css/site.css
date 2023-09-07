@@ -100,7 +100,7 @@ a {
     bottom: 20px;
     right: 20px;
     z-index: 1000;
-    background-color: #007bff;
+    background-color: #f881a0;
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -113,7 +113,7 @@ a {
 }
 
 .floating-button:hover {
-    background-color: #0056b3;
+    background-color: #ef4773;
 }
 
 .arw {
@@ -121,7 +121,7 @@ a {
 }
 
 .arw-gray {
-    color: gray;
+    color: #ff0059;
 }
 
 .arw-like {
@@ -132,13 +132,27 @@ a {
     color: #3b41e0;
 }
 
-.vote-counts {
-    margin-top: 10px; /* Отступ сверху */
+.btn-vote {
+    color: #ff0059;
+    border-color: #b02a37;
+    background-color: transparent;
 }
 
-.like-count, .dislike-count {
-    font-size: 24px;
+.btn-voted, .btn-vote:hover {
+    color: #eae7e7;
+    background-color: #dc3545;
+}
 
+.vote-count {
+    color: #ff0059;
+}
+
+.vote-count, .vote-count-voted {
+    font-size: 24px;
+}
+
+.vote-count-voted, .vote-count:hover {
+    color: #eae7e7;
 }
 
 

@@ -26,10 +26,6 @@
     </div>
 }
 
-<div class="vote-counts">
-    <p class="like-count">Likes: @Model.Post?.LikeCount</p>
-    <p class="dislike-count">Dislikes: @Model.Post?.DislikeCount</p>
-</div>
 
 <form method="post" enctype="multipart/form-data">
 
@@ -37,52 +33,64 @@
 
     @if (Model.CanPutLike)
     {
-        <button type="submit" id="likeVote" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-outline-primary">
-            <span class="arw arw-gray">&#8593;</span>
-            <span class="like-count">@Model.Post?.LikeCount</span>
+        <button type="submit" id="likeVote" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-vote">
+            <span class="vote-count">&#8593;</span>
+            <span class="vote-count">@Model.Post?.LikeCount</span>
         </button>
     }
     else
     {
-        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-outline-primary">
-            <span class="arw arw-like">&#8593;</span>
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Like" class="btn btn-voted">
+            <span class="vote-count-voted">&#8593;</span>
+            <span class="vote-count-voted">@Model.Post?.LikeCount</span>
         </button>
     }
 
     @if (Model.CanPutDisike)
     {
-        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-outline-primary">
-            <span class="arw arw-gray">&#8595;</span>
+        <button type="submit" asp-page-handler="Vote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-vote">
+            <span class="vote-count">&#8595;</span>
+            <span class="vote-count">@Model.Post?.DislikeCount</span>
         </button>
     }
     else
     {
-        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-outline-primary">
-            <span class="arw arw-dislike">&#8595;</span>
+        <button type="submit" asp-page-handler="RemoveVote" asp-route-id="@Model.Post.Id" asp-route-voteType="@VoteType.Dislike" class="btn btn-voted">
+            <span class="vote-count-voted">&#8595;</span>
+            <span class="vote-count-voted">@Model.Post?.DislikeCount</span>
+
         </button>
     }
 
 </form>
 
-<form method="post" enctype="multipart/form-data">
+<h2>Create Comment</h2>
+
+<form id="comment-form" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="CommentVM.Content" class="form-label">Comment body</label>
-        <input asp-for="CommentVM.Content" class="form-control">
+        <input type="hidden" asp-for="CommentVM.Content" name="Content" id="comment-content">
+        <div id="comment-editor" name="comment-editor"></div>
         <span asp-validation-for="CommentVM.Content" class="text-danger"></span>
     </div>
-    <button asp-page-handler="CreateComment" asp-route-id="@Model.Post.Id" type="submit" class="btn btn-primary">Add</button>
+    <button asp-page-handler="CreateComment" asp-route-id="@Model.Post.Id" type="submit" class="btn btn-primary">Add Comment</button>
 </form>
 
 <h2>Comments</h2>
+
 @if (Model.Post?.Comments != null && Model.Post.Comments.Count > 0)
 {
-    <ul>
+    <ul class="list-unstyled">
         @foreach (Comment comment in Model.Post.Comments)
         {
             <li class="mb-3">
-                <strong>@comment.Content</strong><br/>
-                <small>@comment.DateTimeCreated</small>
-                <small>@comment.AppUser.UserName</small>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">@Html.Raw(comment.Content)</p>
+                        <small class="text-muted">@comment.DateTimeCreated</small>
+                        <small class="text-muted">@comment.AppUser.UserName</small>
+                    </div>
+                </div>
             </li>
         }
     </ul>
@@ -91,3 +99,19 @@ else
 {
     <p>No comments yet</p>
 }
+
+<hr/>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+    const quill = new Quill('#comment-editor', {
+        theme: 'snow'
+    });
+
+    let form = document.querySelector('form[id=comment-form]');
+    form.onsubmit = function () {
+        const content = document.querySelector('input[name=Content]');
+        content.value = quill.root.innerHTML;
+    };
+</script>

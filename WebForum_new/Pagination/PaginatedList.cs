@@ -1,5 +1,3 @@
-using WebForum_new.ViewModels.Community;
-
 namespace WebForum_new.Pagination;
 
 public class PaginatedList<T> : List<T>
@@ -19,7 +17,7 @@ public class PaginatedList<T> : List<T>
         AddRange(items);
     }
 
-    public static PaginatedList<T> Create(List<T> source, int pageIndex, int pageSize)
+    public static PaginatedList<T> Create(IEnumerable<T> source, int pageIndex, int pageSize)
     {
         IEnumerable<T> enumerable = source.ToList();
         IEnumerable<T> items = enumerable
