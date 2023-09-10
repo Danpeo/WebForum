@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\WebForum_new.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\DefaultIcons\\default-community.png",
+      "PackagePath": "staticwebassets\\DefaultIcons\\default-community.png"
+    },
+    {
+      "Id": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\DefaultIcons\\main-icon.png",
+      "PackagePath": "staticwebassets\\DefaultIcons\\main-icon.png"
+    },
+    {
       "Id": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

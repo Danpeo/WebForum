@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebForum_new.Extensions;
 using WebForum_new.Models;
+using WebForum_new.Pagination;
 using WebForum_new.Services;
 using WebForum_new.ViewModels.Comment;
 
@@ -11,6 +12,9 @@ namespace WebForum_new.Pages.Community.Post;
 
 public class DetailModel : PageModel
 {
+    private const int CommentsPageSize = 15;
+    public PaginationInfo PaginationInfo { get; set; } = new();
+    public PaginatedList<Comment> CommentPagedList { get; set; } = new();
     [BindProperty] public CreateCommentViewModel CommentVM { get; set; } = new();
 
     [BindProperty] public Models.Post? Post { get; set; } = new();
@@ -32,7 +36,7 @@ public class DetailModel : PageModel
         _authService = authService;
     }
 
-    public async Task<IActionResult> OnGet(int id)
+    public async Task<IActionResult> OnGet(int id, int? pageIndex)
     {
         Post = await _postService.GetByIdAsync(id);
 
@@ -41,6 +45,16 @@ public class DetailModel : PageModel
         if (Post == null)
             return NotFound();
 
+        if (Post.Comments != null)
+            CommentPagedList = PaginatedList<Comment>.Create(Post.Comments, pageIndex ?? 1, CommentsPageSize);
+
+        PaginationInfo = new PaginationInfo()
+        {
+            TotalPages = CommentPagedList.TotalPages,
+            CurrentPage = CommentPagedList.PageIndex,
+            RouteName = nameof(pageIndex)
+        };
+        
         return Page();
     }
 

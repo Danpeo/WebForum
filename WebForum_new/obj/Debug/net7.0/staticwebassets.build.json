@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/RPNNqTfoFeaD5aonAi7Wo20+Mfk79E3KirBiC4mYDs=",
+  "Hash": "BveHu2FBiZV+JRTfcLFEAjRjUKF9UIN06VA/WY2XEGw=",
   "Source": "WebForum_new",
   "BasePath": "_content/WebForum_new",
   "Mode": "Default",
@@ -1086,6 +1086,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\DefaultIcons\\default-community.png",
+      "SourceId": "WebForum_new",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\",
+      "BasePath": "_content/WebForum_new",
+      "RelativePath": "DefaultIcons/default-community.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DefaultIcons\\default-community.png"
+    },
+    {
+      "Identity": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\DefaultIcons\\main-icon.png",
+      "SourceId": "WebForum_new",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\",
+      "BasePath": "_content/WebForum_new",
+      "RelativePath": "DefaultIcons/main-icon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DefaultIcons\\main-icon.png"
     },
     {
       "Identity": "C:\\Users\\danil\\RiderProjects\\WebForum_new\\WebForum_new\\wwwroot\\favicon.ico",

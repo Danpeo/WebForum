@@ -59,6 +59,14 @@
                                     <truncate text=@post?.Title length=MaxPostTitleLength></truncate>
                                 </a>
                             </h5>
+
+                            @if (!string.IsNullOrEmpty(post.Image))
+                            {
+                                <div class="card-text text-lg-start">
+                                    <img alt="Image" src="@post?.Image" class="rounded img-fluid"/>
+                                </div>
+                            }
+
                             <p class="card-text text-center">
                                 <a asp-page="/Community/Post/Detail" asp-route-id="@post?.Id" class="link-secondary">
                                     <truncate text=@post?.Content length=MaxPostContentLength>@post?.Content</truncate>

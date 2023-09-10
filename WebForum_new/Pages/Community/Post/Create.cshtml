@@ -18,5 +18,9 @@
         <textarea asp-for="PostVM.Content" class="form-control"></textarea>
         <span asp-validation-for="PostVM.Content" class="text-danger"></span>
     </div>
+    <div class="col">
+        <input asp-for="PostVM.Image" type="file" class="form-control form-control-lg" placeholder="Image"/>
+        <span asp-validation-for="PostVM.Image" class="text-danger"></span>
+    </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>

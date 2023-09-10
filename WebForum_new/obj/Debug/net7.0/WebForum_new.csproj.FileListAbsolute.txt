@@ -563,3 +563,12 @@ C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\refs\Sys
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\refs\WindowsBase.dll
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.AspNetCore.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Extensions.Hosting.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Extensions.Logging.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Formatting.Compact.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Settings.Configuration.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Sinks.Debug.dll
+C:\Users\danil\RiderProjects\WebForum_new\WebForum_new\bin\Debug\net7.0\Serilog.Sinks.File.dll

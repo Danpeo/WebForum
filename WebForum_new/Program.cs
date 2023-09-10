@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WebForum_new.Authorization.Handlers;
 using WebForum_new.Authorization.Handlers.PostVote;
 using WebForum_new.Authorization.Requirements;
@@ -46,29 +47,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 AddTagHelpers(builder);
 
-WebApplication app = builder.Build();
+await ConfigureAndRunApp(builder);
 
-await ForDevelopementOnly(app);
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();
 
 void AddCustomServices(WebApplicationBuilder webBuilder)
 {
@@ -86,15 +66,6 @@ void AddDbConnection(WebApplicationBuilder webBuilder)
 {
     string connection = webBuilder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
     webBuilder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connection); });
-}
-
-async Task ForDevelopementOnly(WebApplication webApplication)
-{
-    bool seedData = false;
-    if (seedData)
-    {
-        await Seed.SeedUsersAndRolesAsync(webApplication);
-    }
 }
 
 void AddTagHelpers(WebApplicationBuilder webApplicationBuilder)
@@ -146,4 +117,57 @@ void RegisterAuthorizationHandlers(WebApplicationBuilder webBuilder)
     webBuilder.Services.AddScoped<IAuthorizationHandler, IsCommunitySubscriberHandler>();
     webBuilder.Services.AddScoped<IAuthorizationHandler, CanLikePostHandler>();
     webBuilder.Services.AddScoped<IAuthorizationHandler, CanDislikePostHandler>();
+}
+
+async Task ConfigureAndRunApp(WebApplicationBuilder webBuilder)
+{
+    async Task ForDevelopementOnly(IApplicationBuilder webApplication)
+    {
+        bool seedData = false;
+        if (seedData)
+        {
+            await Seed.SeedUsersAndRolesAsync(webApplication);
+        }
+    }
+
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console()
+        .CreateLogger();
+
+    try
+    {
+        Log.Information("Starting Web Application");
+
+        var app = webBuilder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapRazorPages();
+
+        app.Run();
+
+        await ForDevelopementOnly(app);
+    }
+    catch (Exception ex)
+    {
+        Log.Fatal(ex, "Application terminated unexpectedly");
+    }
+    finally
+    {
+        Log.CloseAndFlush();
+    }
 }

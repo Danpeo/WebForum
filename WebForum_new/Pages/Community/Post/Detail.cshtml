@@ -1,4 +1,4 @@
-@page
+@page "{id:int}/{pageIndex:int?}"
 @using WebForum_new.Models
 @model WebForum_new.Pages.Community.Post.DetailModel
 
@@ -81,7 +81,7 @@
 @if (Model.Post?.Comments != null && Model.Post.Comments.Count > 0)
 {
     <ul class="list-unstyled">
-        @foreach (Comment comment in Model.Post.Comments)
+        @foreach (Comment comment in Model.CommentPagedList)
         {
             <li class="mb-3">
                 <div class="card">
@@ -99,6 +99,14 @@ else
 {
     <p>No comments yet</p>
 }
+
+<div class="pagination">
+    <partial name="_Pagination" model="Model.PaginationInfo"/>
+</div>
+
+<div>
+    <partial name="_ScrollToTopButton"/>
+</div>
 
 <hr/>
 

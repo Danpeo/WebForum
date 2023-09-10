@@ -23,6 +23,7 @@ public class CommunityService : CommonService<ApplicationDbContext>, ICommunityS
             {
                 Id = c.Id,
                 Name = c.Name,
+                Image = c.Image,
                 Description = c.Description,
                 DateTimeCreated = c.DateTimeCreated,
                 Posts = c.Posts,

@@ -71,6 +71,10 @@
               "target": "Package",
               "version": "[7.0.9, )"
             },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.8, )"
@@ -78,6 +82,14 @@
             "PagedList.Core": {
               "target": "Package",
               "version": "[1.17.4, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "X.PagedList.Mvc.Core": {
               "target": "Package",

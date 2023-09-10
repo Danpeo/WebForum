@@ -6,6 +6,7 @@
     const int MaxCommunityNameLength = 100;
     const int MaxCommunityDescriptionLength = 150;
 }
+
 <div class="container">
     <div class="row justify-content-center">
         <a asp-page="/Community/Create" class="link-light">
@@ -37,11 +38,26 @@
                                 <i class="fas fa-times-circle"></i>
                             </a>
                         </div>*@
+
                         <h5 class="card-title text-center">
                             <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-main">
                                 <truncate text=@community?.Name length=MaxCommunityNameLength></truncate>
                             </a>
                         </h5>
+
+                        @if (!string.IsNullOrEmpty(community.Image))
+                        {
+                            <div class="card-text text-center">
+                                <img alt="Image" src="@community?.Image" class="rounded img-fluid" width="128" height="128"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card-text text-center">
+                                <img alt="Image" src="~/DefaultIcons/default-community.png" class="rounded img-fluid" width="128" height="128"/>
+                            </div>
+                        }
+
                         <p class="card-text text-center">
                             <a asp-page="/Community/Detail" asp-route-id="@community?.Id" class="link-secondary">
                                 <truncate
@@ -63,7 +79,6 @@
                 </div>
             </div>
         }
-        <p>PAGINATIONS</p>
         <div class="pagination">
             <partial name="_Pagination" model="Model.PaginationInfo"/>
         </div>
